@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java_Websocket_Bundle
+Bundle-SymbolicName: com.rai.mt.websocket
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.rai.mt.protocol,
+ org.osgi.service.component.annotations;version="1.2.0"
+Service-Component: OSGI-INF/org.java_websocket.osgi.ServerService.xml,
+ OSGI-INF/org.java_websocket.osgi.ClientService.xml

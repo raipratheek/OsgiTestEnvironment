@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ServerImpl
+Bundle-SymbolicName: com.rai.mt.serverimpl
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.rai.mt.data,
+ com.rai.mt.protocol,
+ org.eclipse.swt.widgets,
+ org.json;version="20160810.0.0",
+ org.osgi.service.component.annotations;version="1.2.0";resolution:=optional
+Require-Bundle: org.eclipse.swt;bundle-version="3.105.3"
+Service-Component: OSGI-INF/com.rai.mt.serverimpl.ServerLauncher.xml
+Bundle-ActivationPolicy: lazy
