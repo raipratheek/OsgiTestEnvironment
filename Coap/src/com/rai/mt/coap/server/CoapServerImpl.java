@@ -184,4 +184,9 @@ public class CoapServerImpl implements IApprotocolServer {
 		this.receiver = receiver;
 
 	}
+
+	@Override
+	public PROTOCOL getType() {
+		return PROTOCOL.COAP;
+	}
 }

@@ -1,4 +1,4 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.launcher;
 
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
@@ -7,6 +7,8 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.rai.mt.client.impl.ClientFactory;
+import com.rai.mt.client.impl.ResponseListener;
 import com.rai.mt.protocol.IAppProtocolClient;
 
 @Component

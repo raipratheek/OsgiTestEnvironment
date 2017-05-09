@@ -1,4 +1,4 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,6 +21,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.json.JSONObject;
 
+import com.rai.mt.client.api.IDataListener;
+import com.rai.mt.client.data.ResponseAnalysisData;
+import com.rai.mt.client.util.JSONHandler;
 import com.rai.mt.data.JSONTags;
 import com.rai.mt.protocol.IAppProtocolClient;
 
@@ -147,6 +150,7 @@ public class ClientImpl {
 			}
 		});
 		requestBox.setText(" Test String !@@#$$%%^  丣丕且丗丕   ÄÉ ");
+		resAnalyser.setTestPayload(" Test String !@@#$$%%^  丣丕且丗丕   ÄÉ ");
 		responseLabel = new Label(mainComposite, SWT.NONE);
 		responseLabel.setLayoutData(getFormdata(52, 17, 98, 20));
 		responseLabel.setText("Response Analysis");

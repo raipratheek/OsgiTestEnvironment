@@ -1,4 +1,4 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.util;
 
 import org.json.JSONObject;
 import com.rai.mt.data.JSONTags;

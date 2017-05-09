@@ -70,4 +70,9 @@ public class ServerService implements IApprotocolServer {
 		System.out.println(" Server Started.");
 	}
 
+	@Override
+	public PROTOCOL getType() {
+		return PROTOCOL.WEBSOCKET;
+	}
+
 }

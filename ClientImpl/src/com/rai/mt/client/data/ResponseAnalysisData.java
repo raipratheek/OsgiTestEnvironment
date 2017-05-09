@@ -1,4 +1,4 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.data;
 
 public class ResponseAnalysisData {
 

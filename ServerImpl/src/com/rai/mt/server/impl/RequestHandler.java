@@ -1,4 +1,4 @@
-package com.rai.mt.serverimpl;
+package com.rai.mt.server.impl;
 
 import org.json.JSONObject;
 import com.rai.mt.data.JSONTags;

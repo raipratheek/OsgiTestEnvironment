@@ -1,4 +1,4 @@
-package com.rai.mt.serverimpl;
+package com.rai.mt.server.impl;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -22,11 +22,17 @@ import com.rai.mt.data.JSONTags;
 import com.rai.mt.protocol.IApprotocolServer;
 import com.rai.mt.protocol.IReceiver;
 
+/**
+ * Server Instance with UI.
+ * 
+ * @author Prathik
+ *
+ */
 public class ServerTestClient {
 
-	private int port = 8025;
+	private int port;
 
-	private String host = "localhost";
+	private String host;
 
 	private Shell shell;
 
@@ -48,9 +54,11 @@ public class ServerTestClient {
 
 	private HashMap<String, RequestHandler> clientreqHandlers;
 
-	public ServerTestClient(Shell shell, IApprotocolServer protocol) {
+	public ServerTestClient(Shell shell, IApprotocolServer protocol, int port, String host) {
 		this.shell = shell;
 		this.protocol = protocol;
+		this.host = host;
+		this.port = port;
 		clientreqHandlers = new HashMap<String, RequestHandler>();
 
 	}
@@ -185,6 +193,7 @@ public class ServerTestClient {
 
 				@Override
 				public void run() {
+					infoBox.append("INFO " + "Application Protocol Type = " + protocol.getType() + "\n");
 					infoBox.append("INFO " + msg + "\n");
 
 				}

@@ -111,4 +111,9 @@ public class MQTTServerService implements IApprotocolServer {
 		// }
 	}
 
+	@Override
+	public PROTOCOL getType() {
+		return PROTOCOL.MQTT;
+	}
+
 }

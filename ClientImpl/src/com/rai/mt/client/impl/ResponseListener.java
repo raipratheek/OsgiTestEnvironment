@@ -1,9 +1,10 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.impl;
 
 import java.util.HashMap;
 
 import org.json.JSONObject;
 
+import com.rai.mt.client.api.IDataListener;
 import com.rai.mt.data.JSONTags;
 import com.rai.mt.protocol.IReceiver;
 

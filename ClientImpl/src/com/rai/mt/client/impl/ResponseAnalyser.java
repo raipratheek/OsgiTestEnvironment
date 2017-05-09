@@ -1,7 +1,9 @@
-package com.rai.mt.clientimpl;
+package com.rai.mt.client.impl;
 
 import org.json.JSONObject;
 
+import com.rai.mt.client.data.ResponseAnalysisData;
+import com.rai.mt.client.util.JSONHandler;
 import com.rai.mt.data.JSONTags;
 
 /**
