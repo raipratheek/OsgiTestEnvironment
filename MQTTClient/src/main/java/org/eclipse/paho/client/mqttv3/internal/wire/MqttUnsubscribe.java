@@ -52,6 +52,7 @@ public class MqttUnsubscribe extends MqttWireMessage {
 		ByteArrayInputStream bais = new ByteArrayInputStream(data);
 		DataInputStream dis = new DataInputStream(bais);
 		msgId = dis.readUnsignedShort();
+
 		count = 0;
 		names = new String[10];
 		boolean end = false;

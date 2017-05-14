@@ -22,7 +22,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigestSpi;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttPersistable;
@@ -66,7 +65,11 @@ public abstract class MqttWireMessage {
 		this.type = type;
 		// Use zero as the default message ID.  Can't use -1, as that is serialized
 		// as 65535, which would be a valid ID.
-		this.msgId = 0;
+		// this.msgId = 0;
+		
+		// Quick fix for websocket connection error. Initialized to a number not equal to zero.
+		// Ideally this needs to be done by the subclsses.
+		this.msgId = 2;
 	}
 	
 	/**
@@ -125,7 +128,6 @@ public abstract class MqttWireMessage {
 
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        DataOutputStream dos = new DataOutputStream(baos);
-	        
 	        dos.writeByte(first);
 	        dos.write(encodeMBI(remLen));
 	        dos.write(varHeader);

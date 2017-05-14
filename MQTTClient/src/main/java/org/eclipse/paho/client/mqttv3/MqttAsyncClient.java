@@ -29,6 +29,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
 import org.eclipse.paho.client.mqttv3.internal.ClientComms;

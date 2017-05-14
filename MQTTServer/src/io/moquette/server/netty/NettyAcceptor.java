@@ -51,6 +51,8 @@ import java.util.concurrent.TimeUnit;
 import static io.moquette.BrokerConstants.*;
 
 public class NettyAcceptor implements ServerAcceptor {
+	
+	private static int MESSAGE_SIZE = 210000;
 
     private static final String MQTT_SUBPROTOCOL_CSV_LIST = "mqtt, mqttv3.1, mqttv3.1.1";
 
@@ -182,7 +184,7 @@ public class NettyAcceptor implements ServerAcceptor {
                 pipeline.addAfter("idleStateHandler", "idleEventHandler", timeoutHandler);
                 // pipeline.addLast("logger", new LoggingHandler("Netty", LogLevel.ERROR));
                 pipeline.addFirst("bytemetrics", new BytesMetricsHandler(m_bytesMetricsCollector));
-                pipeline.addLast("decoder", new MqttDecoder());
+                pipeline.addLast("decoder", new MqttDecoder(MESSAGE_SIZE));
                 pipeline.addLast("encoder", MqttEncoder.INSTANCE);
                 pipeline.addLast("metrics", new MessageMetricsHandler(m_metricsCollector));
                 pipeline.addLast("messageLogger", new MQTTMessageLogger());
@@ -210,7 +212,7 @@ public class NettyAcceptor implements ServerAcceptor {
             @Override
             void init(ChannelPipeline pipeline) {
                 pipeline.addLast(new HttpServerCodec());
-                pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
+                pipeline.addLast("aggregator", new HttpObjectAggregator(MESSAGE_SIZE));
                 pipeline.addLast("webSocketHandler",
                         new WebSocketServerProtocolHandler("/mqtt", MQTT_SUBPROTOCOL_CSV_LIST));
                 pipeline.addLast("ws2bytebufDecoder", new WebSocketFrameToByteBufDecoder());
@@ -218,7 +220,7 @@ public class NettyAcceptor implements ServerAcceptor {
                 pipeline.addFirst("idleStateHandler", new IdleStateHandler(nettyChannelTimeoutSeconds, 0, 0));
                 pipeline.addAfter("idleStateHandler", "idleEventHandler", timeoutHandler);
                 pipeline.addFirst("bytemetrics", new BytesMetricsHandler(m_bytesMetricsCollector));
-                pipeline.addLast("decoder", new MqttDecoder());
+                pipeline.addLast("decoder", new MqttDecoder(MESSAGE_SIZE));
                 pipeline.addLast("encoder", MqttEncoder.INSTANCE);
                 pipeline.addLast("metrics", new MessageMetricsHandler(m_metricsCollector));
                 pipeline.addLast("messageLogger", new MQTTMessageLogger());

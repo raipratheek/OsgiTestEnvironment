@@ -71,7 +71,6 @@ public class MQTTEmbeddedBroker {
 		try {
 			mqttBroker.startServer(classPathConfig, userHandlers);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -80,8 +79,8 @@ public class MQTTEmbeddedBroker {
 
 		MqttPublishMessage message = MessageBuilder.publish().topicName("Response").retained(true)
 				// qos(MqttQoS.AT_MOST_ONCE);
-				.qos(MqttQoS.AT_LEAST_ONCE)
-				// .qos(MqttQoS.EXACTLY_ONCE)
+				//.qos(MqttQoS.AT_LEAST_ONCE)
+				 .qos(MqttQoS.EXACTLY_ONCE)
 				.payload(msg.getBytes(Charset.forName("UTF-8"))).build();
 		mqttBroker.internalPublish(message, "INTRLPUB");
 	}

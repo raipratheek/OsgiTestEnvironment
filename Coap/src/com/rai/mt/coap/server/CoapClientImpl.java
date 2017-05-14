@@ -10,7 +10,6 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;
-import org.eclipse.californium.core.CoapObserveRelation;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.config.NetworkConfig;
@@ -27,9 +26,7 @@ import com.rai.mt.protocol.IReceiver;
 @Component
 public class CoapClientImpl implements IAppProtocolClient {
 	
-	private static final boolean UDPConnection = true;
-
-	private static volatile boolean flag = false;
+	private static final boolean UDPConnection = false;
 
 	private static final String TRUST_STORE_PASSWORD = "rootPass";
 	private static final String KEY_STORE_PASSWORD = "endPass";
@@ -82,10 +79,10 @@ public class CoapClientImpl implements IAppProtocolClient {
 
 	public void connect(URI url, boolean secure, boolean isUDP) {
 
-		CoapResponse response = null;
 		URI uri = url;
 
 		coapClient = new CoapClient(uri);
+		
 		if (secure) {
 			coapClient.setEndpoint(new CoapEndpoint(dtlsConnector, NetworkConfig.getStandard()));
 		} else {
@@ -125,7 +122,7 @@ public class CoapClientImpl implements IAppProtocolClient {
 			}
 		};
 
-		CoapObserveRelation relation = coapClient.observe(respHandler);
+		coapClient.observe(respHandler);
 
 		// if (response != null) {
 		//

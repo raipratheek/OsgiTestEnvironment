@@ -24,29 +24,29 @@ public class MQTTServerService implements IApprotocolServer {
 
 	private IReceiver receiver;
 
-	private boolean isSecureServer = true;
+	private boolean isSecureServer;
 
 	class PublisherListener extends AbstractInterceptHandler {
 
 		@Override
 		public void onConnect(InterceptConnectMessage msg) {
-			receiver.onConnectionOpen(" Connection opened with clinet = " + msg.getClientID() + " with keep alive ping every"
-					+ msg.getKeepAlive() + "sec protocol " + msg.getProtocolName() );
+			receiver.onConnectionOpen(" Connection opened with clinet = " + msg.getClientID()
+					+ " with keep alive ping every" + msg.getKeepAlive() + "sec protocol " + msg.getProtocolName());
 		}
 
 		@Override
 		public void onDisconnect(InterceptDisconnectMessage msg) {
-			receiver.onError(" Disconnected.. "+ msg.getClientID());
+			receiver.onError(" Disconnected.. " + msg.getClientID());
 		}
 
 		@Override
 		public void onConnectionLost(InterceptConnectionLostMessage msg) {
-			receiver.onError(" Connection Lost.. "+ msg.getClientID());
+			receiver.onError(" Connection Lost.. " + msg.getClientID());
 		}
 
 		@Override
 		public void onSubscribe(InterceptSubscribeMessage msg) {
-			
+
 		}
 
 		@Override
@@ -106,9 +106,7 @@ public class MQTTServerService implements IApprotocolServer {
 
 		pubListener = new PublisherListener();
 		mqttServer.startMqttServer(pubListener, isSecureServer);
-		// } else {
-		// System.out.println(" The MQTT server is already running. ");
-		// }
+		System.out.println(" The MQTT server started..");
 	}
 
 	@Override

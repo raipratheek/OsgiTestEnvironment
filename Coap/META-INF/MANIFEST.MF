@@ -21,11 +21,20 @@ Import-Package: com.rai.mt.protocol,
  org.osgi.service.component.annotations;version="1.2.0";resolution:=optional
 Service-Component: OSGI-INF/com.rai.mt.coap.server.CoapServerImpl.xml,
  OSGI-INF/com.rai.mt.coap.server.CoapClientImpl.xml
-Export-Package: org.eclipse.californium.elements,
+Export-Package: org.eclipse.californium.core,
+ org.eclipse.californium.core.network,
+ org.eclipse.californium.core.network.config,
+ org.eclipse.californium.core.network.interceptors,
+ org.eclipse.californium.core.server.resources,
+ org.eclipse.californium.elements,
  org.eclipse.californium.elements.tcp;
   uses:="io.netty.buffer,
    org.eclipse.californium.elements,
    io.netty.handler.codec,
    io.netty.channel,
    javax.net.ssl",
- org.eclipse.californium.elements.util
+ org.eclipse.californium.elements.util,
+ org.eclipse.californium.scandium,
+ org.eclipse.californium.scandium.config,
+ org.eclipse.californium.scandium.dtls.cipher,
+ org.eclipse.californium.scandium.dtls.pskstore

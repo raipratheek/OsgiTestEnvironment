@@ -42,7 +42,7 @@ public final class NetworkConfig {
 	private static final Logger LOGGER = Logger.getLogger(NetworkConfig.class.getName());
 
 	/** The default name for the configuration. */
-	public static final String DEFAULT_FILE_NAME = "Californium.properties";
+	public static final String DEFAULT_FILE_NAME = "Californium1234.properties";
 
 	/** The default header for a configuration file. */
 	public static final String DEFAULT_HEADER = "Californium CoAP Properties file";
@@ -228,7 +228,7 @@ public final class NetworkConfig {
 		if (file.exists()) {
 			standard.load(file);
 		} else {
-			standard.store(file);
+		//	standard.store(file);
 		}
 		return standard;
 	}

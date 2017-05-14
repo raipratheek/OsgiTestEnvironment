@@ -131,7 +131,6 @@ public class WebSocketFrame {
 	 */
 	public WebSocketFrame(InputStream input) throws IOException {
 		byte firstByte = (byte) input.read();
-		
 		setFinAndOpCode(firstByte);
 		if(this.opcode == 2){
 			byte maskLengthByte = (byte) input.read();

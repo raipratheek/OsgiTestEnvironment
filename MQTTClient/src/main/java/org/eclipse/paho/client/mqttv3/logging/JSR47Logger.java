@@ -17,9 +17,7 @@ package org.eclipse.paho.client.mqttv3.logging;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.MemoryHandler;
 
@@ -54,16 +52,6 @@ public class JSR47Logger implements Logger {
 //		loggerName = "org.eclipse.paho.client.mqttv3." + ((null == loggerID || 0 == loggerID.length()) ? "internal" : loggerID);
 		loggerName = loggerID;
 		this.julLogger = java.util.logging.Logger.getLogger(loggerName);
-		
-		this.julLogger.setLevel(Level.FINE);
-		ConsoleHandler ch = new ConsoleHandler();
-		ch.setLevel(Level.FINE);
-		ch.setFormatter(new SimpleLogFormatter());
-		this.julLogger.addHandler(ch);
-		
-		
-		
-		
 		this.logMessageCatalog = logMsgCatalog;
 		this.traceMessageCatalog = logMsgCatalog;
 		this.catalogID = logMessageCatalog.getString("0");

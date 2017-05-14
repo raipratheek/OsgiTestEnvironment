@@ -44,7 +44,7 @@ public class NetworkConfigDefaults {
 	 * The default maximum resource body size that can be transparently transferred
 	 * in a blockwise transfer.
 	 */
-	public static final int DEFAULT_MAX_RESOURCE_BODY_SIZE = 2048; // bytes
+	public static final int DEFAULT_MAX_RESOURCE_BODY_SIZE = 210000; // bytes
 
 	/**
 	 * The default maximum amount of time (in milliseconds) between transfers of individual
@@ -84,8 +84,8 @@ public class NetworkConfigDefaults {
 		config.setBoolean(NetworkConfig.Keys.USE_RANDOM_MID_START, true);
 		config.setInt(NetworkConfig.Keys.TOKEN_SIZE_LIMIT, 8);
 
-		config.setInt(NetworkConfig.Keys.PREFERRED_BLOCK_SIZE, 512);
-		config.setInt(NetworkConfig.Keys.MAX_MESSAGE_SIZE, 1024);
+		config.setInt(NetworkConfig.Keys.PREFERRED_BLOCK_SIZE, 1024);
+		config.setInt(NetworkConfig.Keys.MAX_MESSAGE_SIZE, 1500);
 		config.setInt(NetworkConfig.Keys.MAX_RESOURCE_BODY_SIZE, DEFAULT_MAX_RESOURCE_BODY_SIZE);
 		config.setInt(NetworkConfig.Keys.BLOCKWISE_STATUS_LIFETIME, 10 * 60 * 1000); // ms
 
@@ -100,7 +100,7 @@ public class NetworkConfigDefaults {
 		config.setInt(NetworkConfig.Keys.NETWORK_STAGE_RECEIVER_THREAD_COUNT, WINDOWS ? CORES : 1);
 		config.setInt(NetworkConfig.Keys.NETWORK_STAGE_SENDER_THREAD_COUNT, WINDOWS ? CORES : 1);
 
-		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_DATAGRAM_SIZE, 2048);
+		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_DATAGRAM_SIZE, 210000);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_RECEIVE_BUFFER, UDPConnector.UNDEFINED);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_SEND_BUFFER, UDPConnector.UNDEFINED);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_OUT_CAPACITY, Integer.MAX_VALUE); // unbounded

@@ -67,13 +67,13 @@ public class UDPConnector implements Connector {
 	/** The receiver of incoming messages. */
 	private RawDataChannel receiver;
 	
-	private int receiveBufferSize = UNDEFINED;
-	private int sendBufferSize = UNDEFINED;
+	private int receiveBufferSize = 210000;
+	private int sendBufferSize = 210000;
 	
 	private int senderCount = 1;
 	private int receiverCount = 1;
 	
-	private int receiverPacketSize = 2048;
+	private int receiverPacketSize = 210000;
 	private boolean logPackets = false;
 	
 	/**

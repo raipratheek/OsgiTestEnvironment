@@ -46,7 +46,6 @@ import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubRec;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttPubRel;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttPublish;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttSuback;
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttSubscribe;
 import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.eclipse.paho.client.mqttv3.logging.Logger;
 import org.eclipse.paho.client.mqttv3.logging.LoggerFactory;
@@ -149,7 +148,7 @@ public class ClientState {
 		log.finer(CLASS_NAME, "<Init>", "" );
 
 		inUseMsgIds = new Hashtable();
-		pendingFlows = new Vector(); 
+		pendingFlows = new Vector();
 		outboundQoS2 = new Hashtable();
 		outboundQoS1 = new Hashtable();
 		outboundQoS0 = new Hashtable();

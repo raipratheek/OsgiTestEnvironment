@@ -1,4 +1,4 @@
-package com.rai.mt.coap.server;
+package com.rai.mt.coap.serverimpl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,25 +26,25 @@ import org.eclipse.californium.scandium.ScandiumLogger;
 import org.eclipse.californium.scandium.config.DtlsConnectorConfig;
 import org.eclipse.californium.scandium.dtls.cipher.CipherSuite;
 import org.eclipse.californium.scandium.dtls.pskstore.InMemoryPskStore;
+import org.json.JSONObject;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
-import com.rai.mt.protocol.IApprotocolServer;
+import com.rai.mt.data.JSONTags;
 import com.rai.mt.protocol.IReceiver;
 
 @Component
-public class CoapServerImpl implements IApprotocolServer {
+public class CoapServerImpl {
 
 	private static final boolean UDPConnector = false;
-	
+
 	private CoapServer coapServer;
 
-	private TestResource resource;
+	private TestResource resource1;
 
-	private IReceiver receiver;
+	private TestResource2 resource2;
 
-	private String response;
-
-	private boolean isSecureServer = true;
+	private boolean isSecureServer = false;
 
 	static {
 		CaliforniumLogger.initialize();
@@ -63,12 +63,13 @@ public class CoapServerImpl implements IApprotocolServer {
 
 	private static final int COAP_PORT = NetworkConfig.getStandard().getInt(NetworkConfig.Keys.COAP_PORT);
 
-	
-
+	@Activate
 	public void startServer() {
 		coapServer = new CoapServer();
-		resource = new TestResource("coap");
-		coapServer.add(resource);
+		resource1 = new TestResource("res1");
+		resource2 = new TestResource2("res2");
+		coapServer.add(resource1);
+		coapServer.add(resource2);
 		if (isSecureServer) {
 			// addEndpoints();
 			addSecureEndPoints();
@@ -134,7 +135,7 @@ public class CoapServerImpl implements IApprotocolServer {
 			config.setTrustStore(trustedCertificates);
 
 			DTLSConnector connector = new DTLSConnector(config.build());
-			
+
 			coapServer.addEndpoint(new CoapEndpoint(connector, NetworkConfig.getStandard()));
 
 			// add special interceptor for message traces
@@ -149,6 +150,51 @@ public class CoapServerImpl implements IApprotocolServer {
 	}
 
 	class TestResource extends CoapResource {
+
+		private String response;
+		private int seqNumber = 0;
+		private IReceiver receiver = new IReceiver() {
+
+			@Override
+			public void onError(String errorDetails) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onDataReceived(final String data) {
+				System.out.println(" data received from client to res1" + data);
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						while (true) {
+							JSONObject jsonObj = new JSONObject(data);
+							jsonObj.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST) );
+							jsonObj.put(JSONTags.RESPONSE_TIME, System.currentTimeMillis());
+							jsonObj.put(JSONTags.SEQUENCE_NUM, ++seqNumber);
+
+							response = jsonObj.toString();
+							TestResource.this.changed();
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+					}
+				}).start();
+
+			}
+
+			@Override
+			public void onConnectionOpen(String msg) {
+				// TODO Auto-generated method stub
+
+			}
+		};
 
 		public TestResource(String name) {
 			super(name);
@@ -167,26 +213,70 @@ public class CoapServerImpl implements IApprotocolServer {
 		}
 	}
 
-	@Override
-	public void send(String response) {
-		this.response = response;
-		resource.changed();
+	class TestResource2 extends CoapResource {
+
+		private String response;
+		private int seqNumber = 0;
+		private IReceiver receiver = new IReceiver() {
+
+			@Override
+			public void onError(String errorDetails) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onDataReceived(final String data) {
+				System.out.println(" data received from client to res2" + data);
+
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						while (true) {
+							JSONObject jsonObj = new JSONObject(data);
+							jsonObj.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST));
+							jsonObj.put(JSONTags.RESPONSE_TIME, System.currentTimeMillis());
+							jsonObj.put(JSONTags.SEQUENCE_NUM, ++seqNumber);
+
+							response = jsonObj.toString();
+							TestResource2.this.changed();
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+					}
+				}).start();
+
+			}
+
+			@Override
+			public void onConnectionOpen(String msg) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		public TestResource2(String name) {
+			super(name);
+			this.setObservable(true);
+
+		}
+
+		@Override
+		public void handleGET(CoapExchange exchange) {
+			// respond to the request
+			exchange.respond(response);
+		}
+
+		public void handlePOST(CoapExchange exchange) {
+			receiver.onDataReceived(exchange.getRequestText());
+
+		}
 	}
 
-	@Override
-	public void init(String address, int port, boolean secure) throws Exception {
-		isSecureServer = secure;
-
-	}
-
-	@Override
-	public void registerReceiver(IReceiver receiver) {
-		this.receiver = receiver;
-
-	}
-
-	@Override
-	public PROTOCOL getType() {
-		return PROTOCOL.COAP;
-	}
 }

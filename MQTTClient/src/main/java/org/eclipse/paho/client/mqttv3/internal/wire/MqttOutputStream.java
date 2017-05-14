@@ -71,8 +71,6 @@ public class MqttOutputStream extends OutputStream {
 	 */
 	public void write(MqttWireMessage message) throws IOException, MqttException {
 		final String methodName = "write";
-		System.out.println("  message  -------> " + message.toString());
-		
 		byte[] bytes = message.getHeader();
 		byte[] pl = message.getPayload();
 //		out.write(message.getHeader());

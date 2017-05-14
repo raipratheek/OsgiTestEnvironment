@@ -65,7 +65,6 @@ public class MqttPublish extends MqttPersistableWireMessage {
 		if (message.getQos() > 0) {
 			msgId = dis.readUnsignedShort();
 		}
-		
 		byte[] payload = new byte[data.length-counter.getCounter()];
 		dis.readFully(payload);
 		dis.close();
