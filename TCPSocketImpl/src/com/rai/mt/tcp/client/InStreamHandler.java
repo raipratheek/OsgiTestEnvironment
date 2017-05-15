@@ -12,8 +12,6 @@ public class InStreamHandler extends Thread {
 
 	private static final int BUFFER_SIZE = 100000;
 
-	private Object sync = new Object();
-
 	public InStreamHandler(InputStream inStream, IReceiver receiver) {
 		this.inStream = inStream;
 		this.receiver = receiver;
