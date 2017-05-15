@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TCPSocketImpl
+Bundle-SymbolicName: com.rai.mt.tcpimpl
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: com.rai.mt.data,
+ com.rai.mt.protocol,
+ org.osgi.service.component.annotations;resolution:=optional
+Service-Component: OSGI-INF/com.rai.mt.tcp.server.SimpleSocketServer.xml,
+ OSGI-INF/com.rai.mt.tcp.client.SimpleSocketClient.xml
