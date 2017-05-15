@@ -8,7 +8,9 @@ public interface IApprotocolServer {
 		
 		MQTT,
 		
-		WEBSOCKET
+		WEBSOCKET,
+		
+		SIMPLE_SOCKET
 		
 	}
 	
