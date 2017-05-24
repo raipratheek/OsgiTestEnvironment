@@ -1,6 +1,5 @@
 package com.rai.mt.tcp.client;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,10 +11,13 @@ public class OutStreamHandler extends Thread {
 	private OutputStream outStream;
 
 	private Object sync = new Object();
+	
+	private FragmentHandler fragHnadler;
 
 	public OutStreamHandler(OutputStream outStream) {
 		outBuffer = new LinkedList<String>();
 		this.outStream = outStream;
+		fragHnadler = new FragmentHandler();
 	}
 
 	@Override
@@ -28,25 +30,18 @@ public class OutStreamHandler extends Thread {
 			}
 			if (nextData == null) {
 				try {
-					Thread.sleep(20);
+					Thread.sleep(1);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			} else {
-				byte[] bytes = nextData.getBytes();
-				try {
-					outStream.write(bytes);
-				} catch (IOException e) {
-					isRunning = false;
-					System.err.println(" Exception in Client Out stream thread " + e.getMessage());
-				}
+				fragHnadler.write(outStream, nextData);
 			}
 
 		}
 
-		System.out.println(" Client Out stream thread stopped .");
+		System.out.println(" Server Out stream thread stopped .");
 	}
 
 	public void addData(String data) {

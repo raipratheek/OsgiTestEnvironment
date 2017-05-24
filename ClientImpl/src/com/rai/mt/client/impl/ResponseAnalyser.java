@@ -62,13 +62,16 @@ public class ResponseAnalyser {
 	}
 
 	public ResponseAnalysisData analyze(JSONObject response) {
+		long responseTime = jsonhandler.unwrapResponseTime(response);
+		long flightTime = System.currentTimeMillis() - responseTime;
 		ResponseAnalysisData analysisData = new ResponseAnalysisData();
 		String responseString = jsonhandler.unwrapResponse(response);
-		long responseTime = jsonhandler.unwrapResponseTime(response);
+		
+		
 		totalResponse++;
 		int responseNumber = response.getInt(JSONTags.SEQUENCE_NUM);
 		analysisData.setSequenceValid(totalResponse == responseNumber);
-		analysisData.setResponseTime(responseTime);
+		
 		analysisData.setResponseValid(isResponseValid(responseString));
 		analysisData.setResponseNumber(responseNumber);
 
@@ -80,6 +83,8 @@ public class ResponseAnalyser {
 			prevResTime = responseTime;
 			analysisData.setAverageTimeInterval(timeAccumulator / (totalResponse - 1));
 		}
+		// do this after avg time calculation.
+		analysisData.setFlightTime(flightTime);
 
 		return analysisData;
 	}
@@ -108,6 +113,7 @@ public class ResponseAnalyser {
 		seqNumber = 0;
 		responseNum = 0;
 		totalResponse = 0;
+		
 
 	}
 

@@ -1,14 +1,10 @@
 package com.rai.mt.server.launcher;
 
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.rai.mt.protocol.IApprotocolServer;
-import com.rai.mt.server.impl.ServerTestClient;
 import com.rai.mt.server.impl.ServerWithoutUI;
 
 @Component
@@ -22,7 +18,7 @@ public class ServerLauncher {
 	/**
 	 * Server host address.
 	 */
-	private String host = "localhost";
+	private String host = "192.168.0.38";
 
 	/**
 	 * Secure server flag.
@@ -57,19 +53,19 @@ public class ServerLauncher {
 			public void run() {
 
 				if (withUI) {
-					Display display = new Display();
-					Shell shell = new Shell(display);
-					shell.setLayout(new FillLayout());
-					shell.setText("SERVER");
-					ServerTestClient stc = new ServerTestClient(shell, protocol , port , host);
-					stc.createView();
-					shell.open();
-
-					while (!shell.isDisposed()) {
-						if (!display.readAndDispatch()) {
-							display.sleep();
-						}
-					}
+//					Display display = new Display();
+//					Shell shell = new Shell(display);
+//					shell.setLayout(new FillLayout());
+//					shell.setText("SERVER");
+//					ServerTestClient stc = new ServerTestClient(shell, protocol , port , host);
+//					stc.createView();
+//					shell.open();
+//
+//					while (!shell.isDisposed()) {
+//						if (!display.readAndDispatch()) {
+//							display.sleep();
+//						}
+//					}
 
 				} else {
 					ServerWithoutUI plainVanillaServer = new ServerWithoutUI(protocol, port, host, isSecure);

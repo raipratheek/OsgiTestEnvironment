@@ -9,12 +9,18 @@ public class InStreamHandler extends Thread {
 	private InputStream inStream;
 
 	private IReceiver receiver;
+	
+	private IMessageReadListner msgReadListener;
+	
+	private FragmentHandler fragHandler;
 
-	private static final int BUFFER_SIZE = 100000;
+	
 
 	public InStreamHandler(InputStream inStream, IReceiver receiver) {
 		this.inStream = inStream;
 		this.receiver = receiver;
+		msgReadListener = new MessageRead();
+		fragHandler =new FragmentHandler(msgReadListener);
 	}
 
 	@Override
@@ -22,26 +28,29 @@ public class InStreamHandler extends Thread {
 
 		boolean isRunning = true;
 		while (isRunning) {
-			byte[] readData = new byte[BUFFER_SIZE];
+			
 			try {
 				if (inStream.available() > 0) {
-					inStream.read(readData);
-					String stringData = new String(readData, "UTF-8");
-					receiver.onDataReceived(stringData);
-				} else {
-					Thread.sleep(20);
+					fragHandler.read(inStream);
+				}
+				else {
+				//	Thread.sleep(1);
 				}
 			} catch (IOException e) {
 				isRunning = false;
 				System.err.println("Error in Client instream thread" + e.getMessage());
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 		}
 		System.out.println(" The inStream Thread on Client stopped ");
 
+	}
+
+	class MessageRead implements IMessageReadListner {
+
+		public void onMessageRead(String msg) {
+			receiver.onDataReceived(msg);
+		}
 	}
 
 }

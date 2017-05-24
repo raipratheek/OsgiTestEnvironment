@@ -70,7 +70,7 @@ public class NetworkConfigDefaults {
 		config.setInt(NetworkConfig.Keys.COAP_PORT, CoAP.DEFAULT_COAP_PORT);
 		config.setInt(NetworkConfig.Keys.COAP_SECURE_PORT, CoAP.DEFAULT_COAP_SECURE_PORT);
 
-		config.setInt(NetworkConfig.Keys.ACK_TIMEOUT, 2000);
+		config.setInt(NetworkConfig.Keys.ACK_TIMEOUT, 4000);
 		config.setFloat(NetworkConfig.Keys.ACK_RANDOM_FACTOR, 1.5f);
 		config.setFloat(NetworkConfig.Keys.ACK_TIMEOUT_SCALE, 2f);
 		config.setInt(NetworkConfig.Keys.MAX_RETRANSMIT, 4);
@@ -100,7 +100,7 @@ public class NetworkConfigDefaults {
 		config.setInt(NetworkConfig.Keys.NETWORK_STAGE_RECEIVER_THREAD_COUNT, WINDOWS ? CORES : 1);
 		config.setInt(NetworkConfig.Keys.NETWORK_STAGE_SENDER_THREAD_COUNT, WINDOWS ? CORES : 1);
 
-		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_DATAGRAM_SIZE, 210000);
+		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_DATAGRAM_SIZE, 2048);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_RECEIVE_BUFFER, UDPConnector.UNDEFINED);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_SEND_BUFFER, UDPConnector.UNDEFINED);
 		config.setInt(NetworkConfig.Keys.UDP_CONNECTOR_OUT_CAPACITY, Integer.MAX_VALUE); // unbounded

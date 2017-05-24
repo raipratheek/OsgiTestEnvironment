@@ -5,23 +5,15 @@ public class ResponseAnalysisData {
 	/**
 	 * Average time interval between 2 successive responses.
 	 */
-	private float averageTimeInterval = -1;
+	private float averageTimeInterval = 0;
 
 	private boolean isSequenceValid = false;
 
 	private boolean isResponseValid = false;
 
 	private int responseNumber = 0;
-	
-	private long responseTime = 0;
 
-	public long getResponseTime() {
-		return responseTime;
-	}
-
-	public void setResponseTime(long responseTime) {
-		this.responseTime = responseTime;
-	}
+	private long flightTime = 0;
 
 	public boolean isSequenceValid() {
 		return isSequenceValid;
@@ -53,6 +45,14 @@ public class ResponseAnalysisData {
 
 	public float getAverageTimeInterval() {
 		return averageTimeInterval;
+	}
+
+	public long getFlightTime() {
+		return flightTime;
+	}
+
+	public void setFlightTime(long flightTime) {
+		this.flightTime = flightTime ;
 	}
 
 }

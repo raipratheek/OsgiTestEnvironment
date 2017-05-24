@@ -12,7 +12,6 @@ public class RequestHandler {
 
 	private volatile boolean stopUpdater;
 
-
 	public boolean isStopUpdater() {
 		return stopUpdater;
 	}
@@ -33,14 +32,19 @@ public class RequestHandler {
 				@Override
 				public void run() {
 					int seqnumber = 1;
-
+					long requestTime = jsonObj.getLong(JSONTags.REQUEST_TIME);
+					long startTime = System.currentTimeMillis();
 					while (!stopUpdater) {
 						try {
-							jsonObj.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST));
-							jsonObj.put(JSONTags.RESPONSE_TIME, System.currentTimeMillis());
-							jsonObj.put(JSONTags.SEQUENCE_NUM, seqnumber++);
+							JSONObject jobj = new JSONObject();
+							jobj.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST));
+							jobj.put(JSONTags.RESPONSE_TIME, requestTime + (System.currentTimeMillis() - startTime));
+							jobj.put(JSONTags.SEQUENCE_NUM, seqnumber++);
+							jobj.put(JSONTags.CLIENT_ID, jsonObj.get(JSONTags.CLIENT_ID));
+							jobj.put(JSONTags.REQUEST_TIME, jsonObj.get(JSONTags.REQUEST_TIME));
 							int timeInterval = jsonObj.getInt(JSONTags.TIME_TO_RESPOND);
-							protocolHandler.send(jsonObj.toString());
+							
+							protocolHandler.send(jobj.toString());
 							Thread.sleep(timeInterval);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
@@ -55,10 +59,12 @@ public class RequestHandler {
 	}
 
 	public void onSingleRequest(JSONObject jsonObj) {
-		
-		jsonObj.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST));
-		jsonObj.put(JSONTags.RESPONSE_TIME, System.currentTimeMillis());
-		jsonObj.put(JSONTags.SEQUENCE_NUM, 1);
-		protocolHandler.send(jsonObj.toString());
+		JSONObject jsonResponse = new JSONObject();
+		jsonResponse.put(JSONTags.CLIENT_ID, jsonObj.get(JSONTags.CLIENT_ID));
+		jsonResponse.put(JSONTags.RESPONSE, jsonObj.get(JSONTags.REQUEST));
+		jsonResponse.put(JSONTags.RESPONSE_TIME, jsonObj.get(JSONTags.REQUEST_TIME));
+		jsonResponse.put(JSONTags.SEQUENCE_NUM, 1);
+		jsonResponse.put(JSONTags.REQUEST_TIME, jsonObj.get(JSONTags.REQUEST_TIME));
+		protocolHandler.send(jsonResponse.toString());
 	}
 }

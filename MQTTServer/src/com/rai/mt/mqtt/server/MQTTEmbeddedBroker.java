@@ -15,7 +15,7 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 
 public class MQTTEmbeddedBroker {
 
-	private static final boolean isTcpConnection = false;
+	private static final boolean isTcpConnection = true;
 
 	private io.moquette.server.Server mqttBroker;
 

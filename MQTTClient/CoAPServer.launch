@@ -18,9 +18,9 @@
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Declipse.ignoreApp=true -Dosgi.noShutdown=true"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <booleanAttribute key="show_selected_only" value="true"/>
-<stringAttribute key="target_bundles" value="io.netty.buffer@default:default,io.netty.codec@default:default,io.netty.common@default:default,io.netty.handler@default:default,io.netty.resolver@default:default,io.netty.transport@default:default,json@default:default,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.eclipse.equinox.common@2:true,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.simpleconfigurator@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.eclipse.swt.win32.win32.x86@default:false,org.eclipse.swt@default:default"/>
+<stringAttribute key="target_bundles" value="io.netty.buffer@default:default,io.netty.codec@default:default,io.netty.common@default:default,io.netty.handler@default:default,io.netty.resolver@default:default,io.netty.transport@default:default,json@default:default,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.eclipse.equinox.common@2:true,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.simpleconfigurator@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true"/>
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="com.rai.mt.coap@default:default,com.rai.mt.protocol.api@5:default,com.rai.mt.serverimpl@default:default"/>
+<stringAttribute key="workspace_bundles" value="com.rai.mt.coap@default:default,com.rai.mt.protocol.api@default:default,com.rai.mt.serverimpl"/>
 </launchConfiguration>

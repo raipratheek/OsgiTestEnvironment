@@ -129,6 +129,8 @@ public class ClientImpl {
 		urlBox.add("tcp://localhost:8025");
 		urlBox.add("coaps://localhost/coap");
 		urlBox.add("coap://localhost/coap");
+		urlBox.add("coap://192.168.0.38/coap");
+		urlBox.add("coap://169.254.142.56/coap");
 		urlBox.select(0);
 
 		requestLabel = new Label(mainComposite, SWT.NONE);
@@ -380,7 +382,7 @@ public class ClientImpl {
 				@Override
 				public void run() {
 
-					long flightTime = System.currentTimeMillis() - analysisData.getResponseTime();
+					long flightTime = analysisData.getFlightTime();
 
 					if (!isStopped) {
 						if (analysisData.isResponseValid()) {

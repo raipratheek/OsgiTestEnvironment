@@ -24,4 +24,9 @@ public class JSONHandler {
 		long response = jsonObj.getLong(JSONTags.RESPONSE_TIME);
 		return response;
 	}
+	
+	public long unwrapRequestTime(JSONObject jsonObj) {
+		long response = jsonObj.getLong(JSONTags.REQUEST_TIME);
+		return response;
+	}
 }

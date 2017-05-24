@@ -26,6 +26,7 @@ import java.util.Map;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
+import org.eclipse.californium.core.coap.CoAP.Type;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.OptionSet;
 import org.eclipse.californium.core.coap.Response;
@@ -246,6 +247,7 @@ public class CoapExchange {
 	 */
 	public void respond(ResponseCode code, String payload) {
 		Response response = new Response(code);
+		response.setType(Type.CON);
 		response.setPayload(payload);
 		response.getOptions().setContentFormat(MediaTypeRegistry.TEXT_PLAIN);
 		respond(response);

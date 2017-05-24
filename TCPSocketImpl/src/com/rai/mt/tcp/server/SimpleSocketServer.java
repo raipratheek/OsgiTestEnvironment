@@ -10,6 +10,8 @@ import org.osgi.service.component.annotations.Component;
 
 import com.rai.mt.protocol.IApprotocolServer;
 import com.rai.mt.protocol.IReceiver;
+import com.rai.mt.tcp.client.InStreamHandler;
+import com.rai.mt.tcp.client.OutStreamHandler;
 
 @Component
 public class SimpleSocketServer implements IApprotocolServer {

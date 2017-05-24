@@ -23,6 +23,7 @@ Import-Package:
  io.netty.handler.timeout;version="4.1.9",
  io.netty.util;version="4.1.9",
  io.netty.util.concurrent;version="4.1.9",
+ io.netty.util.internal;version="4.1.9",
  org.apache.commons.codec.binary;version="1.10.0",
  org.apache.commons.codec.digest;version="1.10.0",
  org.apache.log4j.config;version="1.2.17",
