@@ -414,7 +414,7 @@ data transfer for larger payloads.
 Connection Break#**: 
 
 With **UDP** there is
-no connection that is established between the server and the client. Each datagram
+no longlasting connection that is established between the server and the client. Each datagram
 carries the source and the destination information and the data is received by
 the receiver based on the IP address carried by the datagram. 
 
