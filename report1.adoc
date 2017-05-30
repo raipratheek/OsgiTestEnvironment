@@ -423,12 +423,12 @@ top of UDP. The reliability layer sends acknowledgement back to the sender when
 a datagram is received thereby bringing conformity for the data sent.
 
 Hence with UDP connection there needs to be some kind of
-ping-pong mechanism (connection health polling) needs to be built to determine whether
+ping-pong mechanism (connection health polling) to determine whether
 the peer is still available. Unfortunately this is not built into CoAP and the
 application needs to take care of this.
 
 With **TCP** unlike
-UDP there is a connection that is established between the server and the
+UDP there is a longlasting connection that is established between the server and the
 client. Therefore any unexpected connection error can be detected. With TCP a
 simple ping-pong mechanism can also be set up by exchanging empty messages to
 check the health of the connection.
