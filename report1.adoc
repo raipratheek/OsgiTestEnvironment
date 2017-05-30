@@ -389,7 +389,7 @@ length generally remains under 30 Bytes.
 [underline]#Payload >1024 Bytes#: For payload size greater than
 1024 bytes the payload body needs to be fragmented to fit one frame and each
 fragmented chunk is called a “Block”. The size of each Block is 1024. After
-each frame an acknowledgement is expected and the next frame is only sent after
+each frame is sent an acknowledgement is expected and the next frame is only sent after
 the acknowledgement is received. The total Frame size is found to be 1092
 Bytes.
 
