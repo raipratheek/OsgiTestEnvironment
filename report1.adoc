@@ -3,7 +3,7 @@
 The Server/Client application under discussion in this
 report has the topology as shown in the   figure below. The server side has services
 which could be accessed by the client side delegates through an application
-layer protocol which handles all the data exchange activities between the two
+layer protocol which also handles all the data exchange activities between the two
 applications through an IP (Internet Protocol) connection. The applications
 could be running within the same device or separate devices connected through a
 network. The server connects to only one client at a time which makes this a
