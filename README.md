@@ -4,3 +4,5 @@ This is a simple test environment where I will be testing few of the IoT protoco
 The protocol implementation considered here are open source implementations.
 
 The tests are performed for a simple unicast client/server set up.
+
+click report1.adoc to view the detailed test report

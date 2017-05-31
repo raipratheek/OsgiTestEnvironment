@@ -1,9 +1,9 @@
 = Application Protocol Evaluation for an OSGi based Server/Client application running on constrained devices 
 
 The Server/Client application under discussion in this
-report has the topology as shown in the   figure below. The server side has services
-which could be accessed by the client side delegates through an application
-layer protocol which handles all the data exchange activities between the two
+report has a layout as shown in the   figure below. The server has services
+which could be accessed by the client delegates through an application
+layer protocol. Application protocol handles all the data exchange activities between the two
 applications through an IP (Internet Protocol) connection. The applications
 could be running within the same device or separate devices connected through a
 network. The server connects to only one client at a time which makes this a
@@ -11,38 +11,34 @@ Unicast set up.
 
 image::images\SER_CLI_overview.png[]
 
-This report deals with evaluating few of the popular application
+This report deals with evaluating few of the IoT based application
 layer protocols for the Unicast Server/Client setup with the Server application
-running on an embedded device capable of connecting to remote clients.
+running on an embedded device, capable of connecting to remote clients.
 
 The evaluation is done on the following topics:
 
-1) Suitability of the Application layer protocol to
-the Server/Client architecture under discussion.
+1) Suitability of the Application protocol to
+the Server/Client structure under discussion.
 
-2) The transport layer tests like reliability,
-bandwidth and the frequency of data exchange between the server and the client.
+2) Flight time vs Payload test for payload within 200kB.
 
-3) The speed of data transfer for payload ranging
-within 200kB.
+3) Data sniffing with Wireshark to analyze traffic and packet size.
 
-4) Tests on LAN and wireless LAN networks.
+4) Speed tests on LAN and wireless LAN networks.
 
 5) Ability to detect unexpected connection break.
 
 **Test Setup:**
 
-The test setup consists of an OSGi based server and client
-applications which work with different application layer protocol APIs like
-CoAP, MQTT and Websocket. The application layer protocols can be tested by
-simply plugging in the implementation bundle with the server and the client
-application. The server application is run on the Raspberry Pi board and the
+The test setup consists of an OSGi based server and a client
+application. The applications could be bundled with protocol APIs like
+CoAP, MQTT or Websocket. The application protocol APIs are plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on the Raspberry Pi board and the
 client application is run on the PC. The applications are tested on LAN network
 and Wireless LAN network.
 
 **Client**: The client
 application has a simple UI which is built using the Eclipse RCP framework. The
-client has a simple text editor where the test payload is entered and a URI
+client has a text editor where the test payload is entered and a URI
 field where the address of the server application is entered. The client
 connects to the server and on click of the send button sends the test payload
 data from the text editor to the server using the protocol APIs under test. The
@@ -63,12 +59,12 @@ server application accepts the connection request from the client and responds
 to the instructions from the client. The type of data that is exchanged between
 the server and the client is JSON.
 
-  
+**1. Java Socket Programming**
 
 **Java.net libraries **can
 be used to establish a connection between the server and the client application
 to** **exchange application data. The
-connection provides input and output streams on both ends.
+connection provides input and output streams on either ends.
 
 **Evaluation**
 
@@ -138,7 +134,42 @@ Time (ms)
 
 [underline]#Inference:# For larger payloads the speed decreases
 because the data is read from the stream one byte at a time. The speed can be
-increased by using framing technique.
+increased by reading chunks of data together from the stream instead of reading one byte at a time from the stream.
+
+Tables below shows the results while reading chunks of data from the stream.
+
+.Java Socket connection with chunk reading on LAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 2
+|  2|  2
+| 4 | 5
+|  8|  6
+|  16|8  
+|  32|  15
+| 96 |  40
+| 128 | 60 
+| 184 |  90
+|====================
+.Java Socket connection with chunk reading Framing on WLAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 5 
+|  2|  10
+| 4 | 15
+|  8|  15
+|  16|20  
+|  32|  35
+| 96 |  80
+| 128 | 110 
+| 184 |  140
+|====================
 
 **[underline]#Sniffing with
 Wireshark#**[underline]#:#
@@ -179,6 +210,8 @@ connection needs to be handled by the application.
 
 * Data is exchanged using streams and no framing
 mechanism available. 
+
+**2. Constrained Application Protocol** 
 
 **CoAP **is
 an&nbsp;application layer&nbsp;protocol that is intended for use in
@@ -389,7 +422,7 @@ length generally remains under 30 Bytes.
 [underline]#Payload >1024 Bytes#: For payload size greater than
 1024 bytes the payload body needs to be fragmented to fit one frame and each
 fragmented chunk is called a “Block”. The size of each Block is 1024. After
-each frame an acknowledgement is expected and the next frame is only sent after
+each frame is sent an acknowledgement is expected and the next frame is only sent after
 the acknowledgement is received. The total Frame size is found to be 1092
 Bytes.
 
@@ -414,7 +447,7 @@ data transfer for larger payloads.
 Connection Break#**: 
 
 With **UDP** there is
-no connection that is established between the server and the client. Each datagram
+no longlasting connection that is established between the server and the client. Each datagram
 carries the source and the destination information and the data is received by
 the receiver based on the IP address carried by the datagram. 
 
@@ -423,12 +456,12 @@ top of UDP. The reliability layer sends acknowledgement back to the sender when
 a datagram is received thereby bringing conformity for the data sent.
 
 Hence with UDP connection there needs to be some kind of
-ping-pong mechanism (connection health polling) needs to be built to determine whether
+ping-pong mechanism (connection health polling) to determine whether
 the peer is still available. Unfortunately this is not built into CoAP and the
 application needs to take care of this.
 
 With **TCP** unlike
-UDP there is a connection that is established between the server and the
+UDP there is a longlasting connection that is established between the server and the
 client. Therefore any unexpected connection error can be detected. With TCP a
 simple ping-pong mechanism can also be set up by exchanging empty messages to
 check the health of the connection.
@@ -475,6 +508,9 @@ suggests BERT (Block-wise Transfer and
 Reliable Transports) which improves the block-wise transfer of CoAP by using
 the features offered by TCP. This feature can be implemented with Californium
 to improve the data transmission rate for larger payloads. 
+
+
+**3. Message Queue Telemetry Transport**
 
 **MQTT** stands for
 MQ Telemetry Transport. It is a publish/subscribe, extremely simple and
@@ -677,7 +713,7 @@ payloads is reliable and fast.
 
 * Offers different levels of QoS.
 
-TCP and Websocket connections are
+* TCP and Websocket connections are
 available.
 
 * Data security through TLS and
@@ -685,11 +721,13 @@ available.
 
 Disadvantages of Moquette MQTT:
 
-The Publish/Subscribe architecture
+* The Publish/Subscribe architecture
 of MQTT is an overhead for a Unicast Server/Client application.
 
-2 separate API required. Moquette
+* 2 separate API required. Moquette
 on the server side and Eclipse Paho client on the client side.
+
+**4. WebSocket**
 
 **WebSocket**&nbsp;is a computer&nbsp;communications
 protocol, providing&nbsp;full-duplex&nbsp;communication channels over a single&nbsp;TCP&nbsp;connection.
