@@ -12,7 +12,7 @@ public class InStreamHandler extends Thread {
 	
 	private IMessageReadListner msgReadListener;
 	
-	private FragmentHandler fragHandler;
+	private FragmentStreamHandler fragStreamHandler;
 
 	
 
@@ -20,7 +20,7 @@ public class InStreamHandler extends Thread {
 		this.inStream = inStream;
 		this.receiver = receiver;
 		msgReadListener = new MessageRead();
-		fragHandler =new FragmentHandler(msgReadListener);
+		fragStreamHandler =new FragmentStreamHandler(msgReadListener);
 	}
 
 	@Override
@@ -31,10 +31,15 @@ public class InStreamHandler extends Thread {
 			
 			try {
 				if (inStream.available() > 0) {
-					fragHandler.read(inStream);
+					fragStreamHandler.read(inStream);
 				}
 				else {
-				//	Thread.sleep(1);
+//					try {
+//						Thread.sleep(1);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 			} catch (IOException e) {
 				isRunning = false;

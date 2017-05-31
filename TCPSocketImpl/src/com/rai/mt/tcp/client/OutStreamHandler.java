@@ -12,12 +12,12 @@ public class OutStreamHandler extends Thread {
 
 	private Object sync = new Object();
 	
-	private FragmentHandler fragHnadler;
+	private FragmentStreamHandler fragStreamHandler;
 
 	public OutStreamHandler(OutputStream outStream) {
 		outBuffer = new LinkedList<String>();
 		this.outStream = outStream;
-		fragHnadler = new FragmentHandler();
+		fragStreamHandler = new FragmentStreamHandler();
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class OutStreamHandler extends Thread {
 				}
 
 			} else {
-				fragHnadler.write(outStream, nextData);
+				fragStreamHandler.write(outStream, nextData);
 			}
 
 		}

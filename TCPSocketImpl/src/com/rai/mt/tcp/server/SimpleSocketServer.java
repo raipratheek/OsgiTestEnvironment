@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -38,6 +39,7 @@ public class SimpleSocketServer implements IApprotocolServer {
 	public void startServer() {
 		try {
 			ServerSocket serverSoc = new ServerSocket(PORT);
+			System.out.println("Server opened at : " + serverSoc.getInetAddress() + serverSoc.getLocalPort());
 			Socket connection = serverSoc.accept();
 			OutputStream outStream = connection.getOutputStream();
 			InputStream inStream = connection.getInputStream();

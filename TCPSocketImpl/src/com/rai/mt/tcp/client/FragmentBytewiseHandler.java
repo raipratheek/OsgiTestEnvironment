@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FragmentHandler {
+public class FragmentBytewiseHandler {
 
 	private static final int MAX_BUFFER_SIZE = 200000;
 
@@ -18,11 +18,11 @@ public class FragmentHandler {
 
 	private int readlength = 0;
 	
-	public FragmentHandler(){
+	public FragmentBytewiseHandler(){
 		
 	}
 
-	public FragmentHandler(IMessageReadListner msgReadListener) {
+	public FragmentBytewiseHandler(IMessageReadListner msgReadListener) {
 		this.msgReadListener = msgReadListener;
 
 	}
@@ -52,30 +52,14 @@ public class FragmentHandler {
 					return;
 				}
 				readData = new byte[fragLength];
-				
-
-				while (inStream.available() != 0) {
-					byte readByte = (byte) inStream.read();
-					readData[readlength++] = readByte;
-					
-				}
-
-				if (readlength == fragLength) {
-					String stringData = new String(readData, "UTF-8");
-					msgReadListener.onMessageRead(stringData);
-					isFragmentRead = true;
-				} else {
-					isFragmentRead = false;
-				}
+				isFragmentRead = false;
 
 			} else {
-
 				while (inStream.available() != 0) {
 					byte readByte = (byte) inStream.read();
-					readData[readlength++] = readByte;
-					
+					readData[readlength++] = readByte;					
 				}
-
+				
 				if (readlength == fragLength) {
 					String stringData = new String(readData, "UTF-8");
 					msgReadListener.onMessageRead(stringData);

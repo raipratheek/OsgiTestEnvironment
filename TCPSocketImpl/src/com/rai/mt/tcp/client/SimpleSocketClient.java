@@ -24,7 +24,7 @@ public class SimpleSocketClient implements IAppProtocolClient {
 
 	@Override
 	public void connect(URI url, IReceiver receiver) throws Exception {	
-		Socket socConnection = new Socket("localhost",url.getPort());
+		Socket socConnection = new Socket(url.getHost(),url.getPort());
 		outHandler = new OutStreamHandler(socConnection.getOutputStream());
 		inHandler = new InStreamHandler(socConnection.getInputStream(), receiver);
 		outHandler.start();
