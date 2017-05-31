@@ -32,7 +32,7 @@ the Server/Client structure under discussion.
 
 The test setup consists of an OSGi based server and a client
 application. The applications could be bundled with protocol APIs like
-CoAP, MQTT or Websocket. The application protocol APIs arfe plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on the Raspberry Pi board and the
+CoAP, MQTT or Websocket. The application protocol APIs are plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on the Raspberry Pi board and the
 client application is run on the PC. The applications are tested on LAN network
 and Wireless LAN network.
 
