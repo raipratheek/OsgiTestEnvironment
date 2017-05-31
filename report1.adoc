@@ -64,7 +64,7 @@ the server and the client is JSON.
 **Java.net libraries **can
 be used to establish a connection between the server and the client application
 to** **exchange application data. The
-connection provides input and output streams on both ends.
+connection provides input and output streams on either ends.
 
 **Evaluation**
 
