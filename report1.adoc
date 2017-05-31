@@ -59,7 +59,7 @@ server application accepts the connection request from the client and responds
 to the instructions from the client. The type of data that is exchanged between
 the server and the client is JSON.
 
-  
+**Java Socket Programming**
 
 **Java.net libraries **can
 be used to establish a connection between the server and the client application
@@ -175,6 +175,8 @@ connection needs to be handled by the application.
 
 * Data is exchanged using streams and no framing
 mechanism available. 
+
+**Constrained Application Protocol** 
 
 **CoAP **is
 an&nbsp;application layer&nbsp;protocol that is intended for use in
@@ -472,6 +474,9 @@ Reliable Transports) which improves the block-wise transfer of CoAP by using
 the features offered by TCP. This feature can be implemented with Californium
 to improve the data transmission rate for larger payloads. 
 
+
+**Message Queue Telemetry Transport**
+
 **MQTT** stands for
 MQ Telemetry Transport. It is a publish/subscribe, extremely simple and
 lightweight messaging protocol, designed for constrained devices and
@@ -673,7 +678,7 @@ payloads is reliable and fast.
 
 * Offers different levels of QoS.
 
-TCP and Websocket connections are
+* TCP and Websocket connections are
 available.
 
 * Data security through TLS and
@@ -681,11 +686,13 @@ available.
 
 Disadvantages of Moquette MQTT:
 
-The Publish/Subscribe architecture
+* The Publish/Subscribe architecture
 of MQTT is an overhead for a Unicast Server/Client application.
 
-2 separate API required. Moquette
+* 2 separate API required. Moquette
 on the server side and Eclipse Paho client on the client side.
+
+**WebSocket**
 
 **WebSocket**&nbsp;is a computer&nbsp;communications
 protocol, providing&nbsp;full-duplex&nbsp;communication channels over a single&nbsp;TCP&nbsp;connection.
