@@ -1,8 +1,8 @@
 = Application Protocol Evaluation for an OSGi based Server/Client application running on constrained devices 
 
 The Server/Client application under discussion in this
-report has the topology as shown in the   figure below. The server side has services
-which could be accessed by the client side delegates through an application
+report has a layout as shown in the   figure below. The server has services
+which could be accessed by the client delegates through an application
 layer protocol which also handles all the data exchange activities between the two
 applications through an IP (Internet Protocol) connection. The applications
 could be running within the same device or separate devices connected through a
@@ -11,38 +11,35 @@ Unicast set up.
 
 image::images\SER_CLI_overview.png[]
 
-This report deals with evaluating few of the popular application
+This report deals with evaluating few of the IoT based application
 layer protocols for the Unicast Server/Client setup with the Server application
-running on an embedded device capable of connecting to remote clients.
+running on an embedded device, capable of connecting to remote clients.
 
 The evaluation is done on the following topics:
 
-1) Suitability of the Application layer protocol to
-the Server/Client architecture under discussion.
+1) Suitability of the Application protocol to
+the Server/Client structure under discussion.
 
-2) The transport layer tests like reliability,
-bandwidth and the frequency of data exchange between the server and the client.
+2) Flight time vs Payload test for payload within 200kB.
 
-3) The speed of data transfer for payload ranging
-within 200kB.
+3) Data sniffing with Wireshark to analyze traffic and packet size.
 
-4) Tests on LAN and wireless LAN networks.
+4) Speed tests on LAN and wireless LAN networks.
 
 5) Ability to detect unexpected connection break.
 
 **Test Setup:**
 
-The test setup consists of an OSGi based server and client
-applications which work with different application layer protocol APIs like
-CoAP, MQTT and Websocket. The application layer protocols can be tested by
-simply plugging in the implementation bundle with the server and the client
+The test setup consists of an OSGi based server application and a client
+application. The applications could be bundled with protocol APIs like
+CoAP, MQTT and Websocket. The application protocol API under test is plugged in to the server and the client
 application. The server application is run on the Raspberry Pi board and the
 client application is run on the PC. The applications are tested on LAN network
 and Wireless LAN network.
 
 **Client**: The client
 application has a simple UI which is built using the Eclipse RCP framework. The
-client has a simple text editor where the test payload is entered and a URI
+client has a text editor where the test payload is entered and a URI
 field where the address of the server application is entered. The client
 connects to the server and on click of the send button sends the test payload
 data from the text editor to the server using the protocol APIs under test. The
