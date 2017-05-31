@@ -134,7 +134,42 @@ Time (ms)
 
 [underline]#Inference:# For larger payloads the speed decreases
 because the data is read from the stream one byte at a time. The speed can be
-increased by using framing technique.
+increased by reading chunks of data together from the stream instead of reading one byte at a time from the stream.
+
+Tables below shows the results of reading chunks of dtat from the stream.
+
+.Java Socket connection with chunk reading on LAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 2
+|  2|  2
+| 4 | 5
+|  8|  6
+|  16|8  
+|  32|  15
+| 96 |  40
+| 128 | 60 
+| 184 |  90
+|====================
+.Java Socket connection with chunk reading Framing on WLAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 5 
+|  2|  10
+| 4 | 15
+|  8|  15
+|  16|20  
+|  32|  35
+| 96 |  80
+| 128 | 110 
+| 184 |  140
+|====================
 
 **[underline]#Sniffing with
 Wireshark#**[underline]#:#
