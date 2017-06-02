@@ -604,7 +604,7 @@ public class CoapEndpoint implements Endpoint {
 	 * {@link RawData}) to the endpoint. The endpoint creates a new task to
 	 * process the message. The task consists of invoking the matcher to look
 	 * for an associated exchange and then forwards the message with the
-	 * exchange to the stack of layers.
+	 * exchange to the stack of layers. 
 	 */
 	private class InboxImpl implements RawDataChannel {
 

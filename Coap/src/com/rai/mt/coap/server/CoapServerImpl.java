@@ -55,7 +55,7 @@ public class CoapServerImpl implements IApprotocolServer {
 
 	private String response;
 
-	private boolean isSecureServer = true;
+	private boolean isSecureServer = false;
 
 	static {
 		CaliforniumLogger.initialize();

@@ -127,6 +127,8 @@ public class ClientImpl {
 		urlBox.add("ws://localhost:8025");
 		urlBox.add("ssl://localhost:8025");
 		urlBox.add("tcp://localhost:8025");
+		urlBox.add("tcp://192.168.0.38:8025");
+		urlBox.add("tcp://169.254.142.56:8025");
 		urlBox.add("coaps://localhost/coap");
 		urlBox.add("coap://localhost/coap");
 		urlBox.add("coap://192.168.0.38/coap");

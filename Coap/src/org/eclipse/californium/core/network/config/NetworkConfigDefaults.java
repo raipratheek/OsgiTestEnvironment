@@ -51,7 +51,18 @@ public class NetworkConfigDefaults {
 	 * blocks in a blockwise transfer before the blockwise transfer state is discarded.
 	 */
 	public static final int DEFAULT_BLOCKWISE_STATUS_LIFETIME = 30 * 1000; // 30 secs
-
+	
+	/**
+	 * BERT options settings.
+	 */
+	public static final int BERT_OPTION_STEP_SIZE = 50;
+	
+	/**
+	 * Enable BERT option. This should be enabled only using TCP connector.
+	 */
+	public static final boolean  BERT_OPTION = true;
+	
+	
 	/*
 	 * Accept other message versions than 1
 	 * Refuse unknown options
@@ -122,6 +133,8 @@ public class NetworkConfigDefaults {
 		config.setInt(NetworkConfig.Keys.TCP_CONNECTION_IDLE_TIMEOUT, 10); // s
 		config.setInt(NetworkConfig.Keys.TCP_WORKER_THREADS, 1);
 		config.setInt(NetworkConfig.Keys.TCP_CONNECT_TIMEOUT, 10000); // ms
+		config.setBoolean(NetworkConfig.Keys.BERT_OPTION, BERT_OPTION);
+		config.setInt(NetworkConfig.Keys.BERT_OPTION_STEP, BERT_OPTION_STEP_SIZE);
 	}
 
 	// prevent instantiation
