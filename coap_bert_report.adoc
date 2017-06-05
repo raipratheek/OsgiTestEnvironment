@@ -40,3 +40,11 @@ Time (ms)
 |====================
 
 The graphs below shows the difference between TCP on LAN and WLAN with and without BERT option enabled.
+
+With LAN
+
+image::images\BERT_LAN.png[]
+
+With WLAN
+
+image::images\BERT_WLAN.png[]
