@@ -898,3 +898,28 @@ With WLAN
 
 
 image::images\WLan_graph.png[]
+
+Wireshark Analysis.
+
+Java Socket with data read as chunks.
+
+image::images\java_socket_analysis.png[]
+
+CoAP on TCP:
+
+image::images\coap_analysis.png[]
+
+CoAP with BERT
+
+image::images\coap_bert_analysis.png[]
+
+MQTT with TCP
+
+image::images\mqtt_analysis.png[]
+
+Websocket
+
+image::images\websocket_analysis.png[]
+
+
+
