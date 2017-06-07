@@ -538,8 +538,7 @@ License 2.0.
 **Eclipse Paho Client **is
 the MQTT Java implementation for the client.
 
-**Type of License: **Apache
-License 2.0.
+**Type of License: **EPL
 
 **Minimum Java Version:
 **Java 1.7.
