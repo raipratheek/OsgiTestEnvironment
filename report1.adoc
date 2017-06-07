@@ -507,7 +507,9 @@ reliable transport layer protocols like TCP and Websocket. The draft https://too
 suggests BERT (Block-wise Transfer and
 Reliable Transports) which improves the block-wise transfer of CoAP by using
 the features offered by TCP. This feature can be implemented with Californium
-to improve the data transmission rate for larger payloads. 
+to improve the data transmission rate for larger payloads.
+
+Link to analysis of CoAP with BERT https://github.com/raipratheek/OsgiTestEnvironment/blob/master/coap_bert_report.adoc
 
 
 **3. Message Queue Telemetry Transport**
