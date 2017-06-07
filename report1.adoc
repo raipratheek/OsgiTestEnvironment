@@ -902,6 +902,7 @@ With WLAN
 image::images\WLan_graph.png[]
 
 Wireshark Analysis.
+In this test the server sends responses to the client every 1 second with a payload size of 192kBytes for 25 Mins.
 
 Java Socket with data read as chunks.
 
@@ -916,6 +917,9 @@ CoAP with BERT
 image::images\coap_bert_analysis.png[]
 
 MQTT with TCP
+
+The server ran only for 20 Mins as there was a java heap memory exception on the server.
+This is an open issue with Moquette Implementation. https://github.com/andsel/moquette/issues/320
 
 image::images\mqtt_analysis.png[]
 
