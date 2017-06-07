@@ -902,6 +902,7 @@ With WLAN
 image::images\WLan_graph.png[]
 
 Wireshark Analysis.
+
 In this test the server sends responses to the client every 1 second with a payload size of 192kBytes for 25 Mins.
 
 Java Socket with data read as chunks.
