@@ -44,7 +44,7 @@ public class NetworkConfigDefaults {
 	 * The default maximum resource body size that can be transparently transferred
 	 * in a blockwise transfer.
 	 */
-	public static final int DEFAULT_MAX_RESOURCE_BODY_SIZE = 210000; // bytes
+	public static final int DEFAULT_MAX_RESOURCE_BODY_SIZE = 200*1024; // 200 KBytes
 
 	/**
 	 * The default maximum amount of time (in milliseconds) between transfers of individual
@@ -55,7 +55,7 @@ public class NetworkConfigDefaults {
 	/**
 	 * BERT options settings.
 	 */
-	public static final int BERT_OPTION_STEP_SIZE = 50;
+	public static final int BERT_OPTION_STEP_SIZE = 200;
 	
 	/**
 	 * Enable BERT option. This should be enabled only using TCP connector.
@@ -81,7 +81,7 @@ public class NetworkConfigDefaults {
 		config.setInt(NetworkConfig.Keys.COAP_PORT, CoAP.DEFAULT_COAP_PORT);
 		config.setInt(NetworkConfig.Keys.COAP_SECURE_PORT, CoAP.DEFAULT_COAP_SECURE_PORT);
 
-		config.setInt(NetworkConfig.Keys.ACK_TIMEOUT, 4000);
+		config.setInt(NetworkConfig.Keys.ACK_TIMEOUT, 2000);
 		config.setFloat(NetworkConfig.Keys.ACK_RANDOM_FACTOR, 1.5f);
 		config.setFloat(NetworkConfig.Keys.ACK_TIMEOUT_SCALE, 2f);
 		config.setInt(NetworkConfig.Keys.MAX_RETRANSMIT, 4);
