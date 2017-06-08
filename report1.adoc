@@ -507,7 +507,9 @@ reliable transport layer protocols like TCP and Websocket. The draft https://too
 suggests BERT (Block-wise Transfer and
 Reliable Transports) which improves the block-wise transfer of CoAP by using
 the features offered by TCP. This feature can be implemented with Californium
-to improve the data transmission rate for larger payloads. 
+to improve the data transmission rate for larger payloads.
+
+Link to analysis of CoAP with BERT https://github.com/raipratheek/OsgiTestEnvironment/blob/master/coap_bert_report.adoc
 
 
 **3. Message Queue Telemetry Transport**
@@ -536,8 +538,7 @@ License 2.0.
 **Eclipse Paho Client **is
 the MQTT Java implementation for the client.
 
-**Type of License: **Apache
-License 2.0.
+**Type of License: **EPL
 
 **Minimum Java Version:
 **Java 1.7.
@@ -898,3 +899,33 @@ With WLAN
 
 
 image::images\WLan_graph.png[]
+
+Wireshark Analysis.
+
+In this test the server sends responses to the client every 1 second with a payload size of 192kBytes for 25 Mins.
+
+Java Socket with data read as chunks.
+
+image::images\java_socket_analysis.png[]
+
+CoAP on TCP:
+
+image::images\coap_analysis.png[]
+
+CoAP with BERT
+
+image::images\coap_bert_analysis.png[]
+
+MQTT with TCP
+
+The server ran only for 20 Mins as there was a java heap memory exception on the server.
+This is an open issue with Moquette Implementation. https://github.com/andsel/moquette/issues/320
+
+image::images\mqtt_analysis.png[]
+
+Websocket
+
+image::images\websocket_analysis.png[]
+
+
+

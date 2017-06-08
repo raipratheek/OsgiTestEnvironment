@@ -48,3 +48,12 @@ image::images\BERT_LAN.png[]
 With WLAN
 
 image::images\BERT_WLAN.png[]
+
+**Wireshark analysis:**  
+Californium without BERT 
+
+image::images\coap_analysis.png[]
+
+Californium with BERT
+
+image::images\coap_bert_analysis.png[]
