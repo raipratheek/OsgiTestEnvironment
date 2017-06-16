@@ -904,15 +904,15 @@ Speed Comparison.
 
 2kBytes Payload
 
-image::images\comparison_2K.png[]
+image::images\comparison_2k.png[]
 
 32kBytes Payload
 
-image::images\comparison_32K.png[]
+image::images\comparison_32k.png[]
 
 190kBytes Payload
 
-image::images\comparison_190K.png[]
+image::images\comparison_190k.png[]
 
 Wireshark Analysis.
 
