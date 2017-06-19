@@ -948,6 +948,6 @@ image::images\websocket_analysis.png[]
 | Protocol| Communication Types synchronous, asynchronous and continuous push from server| Speed with large payload |Connection Break Recognition | Web Compatibility
 | **Java Socket Programming**| All types of Communication possible | Fast | Needs to be handled by the application | No
 | **CoAP (Californium)** https://github.com/eclipse/californium| All types of Communication possible | Slow without BERT option | Needs to be handled by the application | Libraries available eg : node-coap https://github.com/mcollina/node-coap
-| **MQTT (Moquette)** https://github.com/andsel/moquette | Synchronous communication not possible | Fast | Handled by the protocol | Libraries available eg: Eclipse Paho JavaScript Client
+| **MQTT (Moquette)** https://github.com/andsel/moquette | Synchronous communication not possible | Fast | Handled by the protocol | Libraries available eg: Eclipse Paho JavaScript Client https://github.com/eclipse/paho.mqtt.javascript
 | **WebSocket (TTNate)** https://github.com/TooTallNate/Java-WebSocket | All types of Communication possible | Fast |  Needs to be handled by the application | Supported by all the major browsers
 |====================
