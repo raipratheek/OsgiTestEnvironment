@@ -8,7 +8,7 @@ New Pull Request created to merge the BERT changes to Californium https://github
 
 Below are the results of Flight Time vs Payload tests performed with BERT option enabled in **Californium**.
 
-.Coap on LAN with TCP with BERT enabled
+.Coap on LAN with TCP with BERT enabled with step size = 20
 [width="50%",options="header,footer"]
 |====================
 |  Payload
@@ -24,7 +24,7 @@ Time (ms)
 | 128 | 220 
 | 184 |  380
 |====================
-.CoAP on WLAN with TCP with BERT enabled
+.CoAP on WLAN with TCP with BERT enabled with step size = 20
 [width="50%",options="header,footer"]
 |====================
  Payload
