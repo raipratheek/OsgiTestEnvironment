@@ -942,4 +942,17 @@ Websocket
 image::images\websocket_analysis.png[]
 
 
-
+.Comparison
+[width="100%",options="header,footer"]
+|====================
+|  Communication Type| Speed with large payload |Connection Break Recognition | Web Compatibility
+Java Socket Programming| All types of Communication possible | Fast | needs to be handled by the application | No
+|  2|  10
+| 4 | 15
+|  8|  30
+|  16|60  
+|  32|  115
+| 96 |  360
+| 128 | 490 
+| 184 |  710
+|====================
