@@ -946,6 +946,5 @@ image::images\websocket_analysis.png[]
 [width="100%",options="header,footer"]
 |====================
 | Protocol| Communication Type| Speed with large payload |Connection Break Recognition | Web Compatibility
-
-Java Socket Programming| All types of Communication possible | Fast | needs to be handled by the application | No
+| Java Socket Programming| All types of Communication possible | Fast | needs to be handled by the application | No
 |====================
