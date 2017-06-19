@@ -946,5 +946,8 @@ image::images\websocket_analysis.png[]
 [width="100%",options="header,footer"]
 |====================
 | Protocol| Communication Type| Speed with large payload |Connection Break Recognition | Web Compatibility
-| Java Socket Programming| All types of Communication possible | Fast | needs to be handled by the application | No
+| Java Socket Programming| All types of Communication possible | Fast | Needs to be handled by the application | No
+| CoAP | All types of Communication possible | Slow without BERT option | Needs to be handled by the application | Libraries available eg : node-coap https://github.com/mcollina/node-coap
+| MQTT | Synchronous communication not possible | Fast | Handled by the protocol | Libraries available 
+| WebSocket | All types of Communication possible | Fast |  Needs to be handled by the application | Supported by all the major browsers
 |====================
