@@ -900,6 +900,20 @@ With WLAN
 
 image::images\WLan_graph.png[]
 
+Speed Comparison.
+
+2kBytes Payload
+
+image::images\comparison_2k.png[]
+
+32kBytes Payload
+
+image::images\comparison_32k.png[]
+
+190kBytes Payload
+
+image::images\comparison_190k.png[]
+
 Wireshark Analysis.
 
 In this test the server sends responses to the client every 1 second with a payload size of 192kBytes for 25 Mins.

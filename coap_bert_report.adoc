@@ -4,40 +4,62 @@
 
 Based on the above draft the Californium implementation was modified to support BERT option while CoAP is bound to TCP. BERT option does not work on UDP because it is not a reliable protocol.
 
+New Pull Request created to merge the BERT changes to Californium https://github.com/eclipse/californium/pull/319.
+
 Below are the results of Flight Time vs Payload tests performed with BERT option enabled in **Californium**.
 
-.Coap on LAN with TCP with BERT enabled
+.Coap on LAN with TCP without BERT option enabled 
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 7 
+|  2|  18
+| 4 | 23
+|  8| 35
+|  16|55  
+|  32|  85
+| 96 |  150
+| 128 | 200 
+| 184 |  400
+|====================
+
+.Coap on LAN with TCP with BERT enabled with step size = 20
 [width="50%",options="header,footer"]
 |====================
 |  Payload
 Size (kB)| Flight
 Time (ms) 
 | 1 | 5 
-|  2|  20
+|  2|  15
 | 4 | 20
-|  8| 20
-|  16|20  
-|  32|  35
-| 96 |  180
-| 128 | 220 
-| 184 |  380
+|  8| 25
+|  16|30  
+|  32|  40
+| 96 |  120
+| 128 | 170
+| 184 |  300
 |====================
-.CoAP on WLAN with TCP with BERT enabled
+
+.Coap on LAN with TCP with BERT enabled with step size = 200
 [width="50%",options="header,footer"]
 |====================
- Payload
+|  Payload
 Size (kB)| Flight
 Time (ms) 
-| 1 | 12 
-|  2|  20
-| 4 | 25
-|  8|  65
-|  16|80  
-|  32|  180
-| 96 |  350
-| 128 | 550 
-| 184 |  800
+| 1 | 3 
+|  2|  6
+| 4 | 8
+|  8| 10
+|  16|15  
+|  32|  20
+| 96 |  60
+| 128 | 85 
+| 184 |  125
 |====================
+
+
 
 The graphs below shows the difference between TCP on LAN and WLAN with and without BERT option enabled.
 
@@ -45,9 +67,6 @@ With LAN
 
 image::images\BERT_LAN.png[]
 
-With WLAN
-
-image::images\BERT_WLAN.png[]
 
 **Wireshark analysis:**  
 Californium without BERT 
