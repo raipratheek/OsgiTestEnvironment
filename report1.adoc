@@ -503,7 +503,7 @@ reach cannot be readily determined with UDP connection.
 **Further Development**
 
 The data transmission rate can be improved when using
-reliable transport layer protocols like TCP and Websocket. The draft https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-17[https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-17]
+reliable transport layer protocols like TCP and Websocket. The draft https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-09[https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-09]
 suggests BERT (Block-wise Transfer and
 Reliable Transports) which improves the block-wise transfer of CoAP by using
 the features offered by TCP. This feature can be implemented with Californium
