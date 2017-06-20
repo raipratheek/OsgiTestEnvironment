@@ -1,6 +1,6 @@
 = Flight Time with CoAP BERT Option.
 
-**BERT** Option (Block-wise Extension for Reliable Transport) is a way to leverage the reliability of Transport layer protocols like TCP and Websocket to transfer large messages in Block-wise fashion. As described in the draft https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-03 .
+**BERT** Option (Block-wise Extension for Reliable Transport) is a way to leverage the reliability of Transport layer protocols like TCP and Websocket to transfer large messages in Block-wise fashion. As described in the draft https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-09 .
 
 Based on the above draft the Californium implementation was modified to support BERT option while CoAP is bound to TCP. BERT option does not work on UDP because it is not a reliable protocol.
 
