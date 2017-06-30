@@ -342,7 +342,7 @@ not yet implemented.
 different payloads:#** In this test the flight time is measured for
 different payload sizes on Wired LAN and also Wireless LAN network.
 
-.Coap on LAN with UDP
+.CoAP on LAN with UDP
 [width="50%",options="header,footer"]
 |====================
 |  Payload
@@ -375,7 +375,7 @@ Time (ms)
 | 184 |  1650
 |====================
 
-.Coap on LAN with TCP
+.CoAP on LAN with TCP
 [width="50%",options="header,footer"]
 |====================
 |  Payload
