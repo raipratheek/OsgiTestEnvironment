@@ -46,7 +46,6 @@ CoAP, MQTT or Websocket. The OSGi application protocol APIs are plugged in to th
 client application is run on a PC. The applications are tested on LAN network
 and Wireless LAN network.
 
-
 image::images\test_setup.png[]
 
 **Client**: The client
