@@ -78,8 +78,6 @@ be used to establish a connection between the server and the client application
 to** **exchange application data. The
 connection provides input and output streams on either ends.
 
-**Evaluation**
-
 **Design with Java.net
 libraries**
 
@@ -307,8 +305,6 @@ under development.
 
 * Websocket Transport layer
 connection not available.
-
-**Evaluation:**
 
 **Design with CoAP:**
 
@@ -583,8 +579,6 @@ server and the client closes.
 * Limited overhead with fixed header
 size of only 2 bytes. 
 
-**Evaluation**
-
 **Design with MQTT**
 
 MQTT broker is designed for an environment where “one to many”
@@ -780,7 +774,6 @@ HTTP and WebSocket i.e. 80 and 443.
 layer protocol but offers framing mechanism over TCP to enable transport of
 payloads of any size.
 
-**Evaluation**:
 **Architecture with
 WebSocket**
 
