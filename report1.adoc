@@ -1,13 +1,23 @@
 = Application Protocol Evaluation for an OSGi based Server/Client application running on constrained devices 
 
 The Server/Client application under discussion in this
-report has a layout as shown in the   figure below. The server has services
+report has a layout as shown in the   figure below. The server has services (OSGi Services)
 which could be accessed by the client delegates through an application
 layer protocol. Application protocol handles all the data exchange activities between the two
 applications through an IP (Internet Protocol) connection. The applications
 could be running within the same device or separate devices connected through a
 network. The server connects to only one client at a time which makes this a
 Unicast set up.
+
+The types of communication possible between the Server and the Client are:
+
+1) Synchronous communication.
+
+2) Asynchronous communication.
+
+3) Push from the server - The server pushes the data to the client whenever there is a change in state.
+
+The data model used is JSON.
 
 image::images\SER_CLI_overview.png[]
 
@@ -32,8 +42,8 @@ the Server/Client structure under discussion.
 
 The test setup consists of an OSGi based server and a client
 application. The applications could be bundled with protocol APIs like
-CoAP, MQTT or Websocket. The application protocol APIs are plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on the Raspberry Pi board and the
-client application is run on the PC. The applications are tested on LAN network
+CoAP, MQTT or Websocket. The OSGi application protocol APIs are plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on a Raspberry Pi board and the
+client application is run on a PC. The applications are tested on LAN network
 and Wireless LAN network.
 
 **Client**: The client
@@ -332,7 +342,7 @@ not yet implemented.
 different payloads:#** In this test the flight time is measured for
 different payload sizes on Wired LAN and also Wireless LAN network.
 
-.Coap on LAN with UDP
+.CoAP on LAN with UDP
 [width="50%",options="header,footer"]
 |====================
 |  Payload
@@ -365,7 +375,7 @@ Time (ms)
 | 184 |  1650
 |====================
 
-.Coap on LAN with TCP
+.CoAP on LAN with TCP
 [width="50%",options="header,footer"]
 |====================
 |  Payload
@@ -397,8 +407,8 @@ Time (ms)
 | 128 | 1750 
 | 184 |  2250
 |====================
-TCP connection is found to be slightly slower than the UDP
-connection. This is due to the addition Acknowledgement of the TCP protocol.
+
+TCP connection is found to be slightly faster than the UDP connection on LAN network.
 
 **[underline]#Sniffing with
 Wireshark#**[underline]#:# 
