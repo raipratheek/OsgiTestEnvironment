@@ -49,8 +49,8 @@ and Wireless LAN network.
 image::images\test_setup.png[]
 
 .Test Environment
-[width="100%",options="header,footer"]
-|====================
+[width="100%",options="footer"]
+|==================== 
 | Server Hardware  |  Raspberry Pi 3B
 | Client Hardware  |  Lenovo PC 
 |  Server OS |  Raspbian (Linux)
