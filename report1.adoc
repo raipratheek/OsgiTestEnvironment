@@ -48,6 +48,21 @@ and Wireless LAN network.
 
 image::images\test_setup.png[]
 
+.Test Environment
+[width="100%",options="header,footer"]
+|====================
+| Server Hardware  |  Raspberry Pi 3B
+| Client Hardware  |  Lenovo PC 
+|  Server OS |  Raspbian (Linux)
+| Client OS  |  Windows 10
+|  Server CPU|  
+|  Client CPU| 
+|  Server Memory size|  
+| Client Memory size |  
+| Server Java version |  
+| Client Java version |  
+|====================
+
 **Client**: The client
 application has a simple UI which is built using the Eclipse RCP framework. The
 client has a text editor where the test payload is entered and a URI
