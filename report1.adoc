@@ -56,7 +56,7 @@ image::images\test_setup.png[]
 | Client Hardware  |  Lenovo PC 
 |  Server OS |  Raspbian (Linux)
 | Client OS  |  Windows 10
-|  Server CPU|  ARM Coretx-A53 (quad-core)
+|  Server CPU|  ARM Cortex-A53 (quad-core)
 |  Client CPU| Intel CORE i3
 |  Server Memory size|  1GB
 | Client Memory size |  4GB
