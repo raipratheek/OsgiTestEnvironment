@@ -48,6 +48,7 @@ and Wireless LAN network.
 
 image::images\test_setup.png[]
 
+
 .Test Environment
 [width="100%",options="footer"]
 |==================== 
@@ -55,12 +56,12 @@ image::images\test_setup.png[]
 | Client Hardware  |  Lenovo PC 
 |  Server OS |  Raspbian (Linux)
 | Client OS  |  Windows 10
-|  Server CPU|  
-|  Client CPU| 
-|  Server Memory size|  
-| Client Memory size |  
-| Server Java version |  
-| Client Java version |  
+|  Server CPU|  ARM Coretx-A53 (quad-core)
+|  Client CPU| Intel CORE i3
+|  Server Memory size|  2GB
+| Client Memory size |  4GB
+| Server Java version |  1.7
+| Client Java version |  1.8
 |====================
 
 **Client**: The client
