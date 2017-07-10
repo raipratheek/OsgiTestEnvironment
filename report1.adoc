@@ -58,6 +58,8 @@ image::images\test_setup.png[]
 | Client OS  |  Windows 10
 |  Server CPU|  ARM Cortex-A53 (quad-core)
 |  Client CPU| Intel CORE i3
+|  Server Network Adapter |
+|  Client Network Adapter | Realtek PCle GBE (LAN) & Qualcomm Atheros AR956x
 |  Server Memory size|  1GB
 | Client Memory size |  4GB
 | Server Java version |  1.7
