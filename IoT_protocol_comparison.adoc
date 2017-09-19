@@ -1,1 +1,976 @@
+= Application Protocol Evaluation for an OSGi based Server/Client application running on constrained devices 
 
+The Server/Client application under discussion in this
+report has a layout as shown in the   figure below. The server has services (OSGi Services)
+which could be accessed by the client delegates through an application
+layer protocol. Application protocol handles all the data exchange activities between the two
+applications through an IP (Internet Protocol) connection. The applications
+could be running within the same device or separate devices connected through a
+network. The server connects to only one client at a time which makes this a
+Unicast set up.
+
+The types of communication possible between the Server and the Client are:
+
+1) Synchronous communication.
+
+2) Asynchronous communication.
+
+3) Push from the server - The server pushes the data to the client whenever there is a change in state.
+
+The data model used is JSON.
+
+image::images\SER_CLI_overview.png[]
+
+This report deals with evaluating few of the IoT based application
+layer protocols for the Unicast Server/Client setup with the Server application
+running on an embedded device, capable of connecting to remote clients.
+
+The evaluation is done on the following topics:
+
+1) Suitability of the Application protocol to
+the Server/Client structure under discussion.
+
+2) Flight time vs Payload test for payload within 200kB.
+
+3) Data sniffing with Wireshark to analyze traffic and packet size.
+
+4) Speed tests on LAN and wireless LAN networks.
+
+5) Ability to detect unexpected connection break.
+
+**Test Setup:**
+
+The test setup consists of an OSGi based server and a client
+application. The applications could be bundled with protocol APIs like
+CoAP, MQTT or Websocket. The OSGi application protocol APIs are plugged in to the server and the client application one at a time for detailed evaluation. The server application is run on a Raspberry Pi board and the
+client application is run on a PC. The applications are tested on LAN network
+and Wireless LAN network.
+
+image::images\test_setup.png[]
+
+
+.Test Environment
+[width="100%",options="footer"]
+|==================== 
+| Server Hardware  |  Raspberry Pi 3B
+| Client Hardware  |  Lenovo PC 
+|  Server OS |  Raspbian (Linux)
+| Client OS  |  Windows 10
+|  Server CPU|  ARM Cortex-A53 (quad-core)
+|  Client CPU| Intel CORE i3
+|  Server Network Adapter | Qualcomm BCM2837 SoC with 10/100 Ethernet, 2.4GHz 802.11n wireless
+|  Client Network Adapter | Realtek PCle GBE (LAN) & Qualcomm Atheros AR956x
+|  Server Memory size|  1GB
+| Client Memory size |  4GB
+| Server Java version |  1.7
+| Client Java version |  1.8
+|====================
+
+**Client**: The client
+application has a simple UI which is built using the Eclipse RCP framework. The
+client has a text editor where the test payload is entered and a URI
+field where the address of the server application is entered. The client
+connects to the server and on click of the send button sends the test payload
+data from the text editor to the server using the protocol APIs under test. The
+response from the server is analyzed and details like Flight time of the data,
+the order in which the data is received from the server and the correctness of
+the response is displayed.
+
+The client provides synchronous data exchange where the
+client waits for the response from the server and also provides asynchronous
+data exchange where the client sends one request with additional time period
+parameter T ms and the server then responds with the test payload every T ms
+until the client sends a stop request.
+
+image::images\client.png[]
+
+**Server: **The
+server application accepts the connection request from the client and responds
+to the instructions from the client. The type of data that is exchanged between
+the server and the client is JSON.
+
+**1. Java Socket Programming**
+
+**Java.net libraries **can
+be used to establish a connection between the server and the client application
+to** **exchange application data. The
+connection provides input and output streams on either ends.
+
+**Design with Java.net
+libraries**
+
+Since the Java socket connection is only a transport layer connection,
+handling of application data needs to be taken care by the respective
+applications. Hence our application architecture would look like the figure
+below.
+
+image::images\java_net_overview.png[]
+
+**Request/Response Handlers**
+are required on the server and the client side to handle request and responses.
+The application data should contain some additional information to reach the
+intended destination like RequestID,  ServiceID etc.
+
+[underline]#Inference#: With Java.net library implementation there
+are no definite protocol rules followed by the server and the client, hence
+this solution does not offer extensibility. For a new client to communicate
+with the server, it has to first understand server.
+
+**Transport Layer
+Tests:**
+
+Since Java socket connection is a stream based connection,
+there needs to be a mechanism to detect the start and end of a message. To
+facilitate this short header of 6 bytes is added at the start of the message.
+The header contains the total length of the message in bytes. Based on the size
+of the message the bytes are read from the stream one by one until the end of
+the message is reached. 
+
+
+.Java Socket connection on LAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 5 
+|  2|  10
+| 4 | 15
+|  8|  30
+|  16|60  
+|  32|  115
+| 96 |  360
+| 128 | 490 
+| 184 |  710
+|====================
+.Java socket connection on WLAN
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 10 
+|  2|  20
+| 4 | 25
+|  8|  35
+|  16|65  
+|  32|  125
+| 96 |  400
+| 128 | 600 
+| 184 |  720
+|====================
+
+[underline]#Inference:# For larger payloads the speed decreases
+because the data is read from the stream one byte at a time. The speed can be
+increased by reading chunks of data together from the stream instead of reading one byte at a time from the stream.
+
+Tables below shows the results while reading chunks of data from the stream.
+
+.Java Socket connection with chunk reading on LAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 2
+|  2|  2
+| 4 | 5
+|  8|  6
+|  16|8  
+|  32|  15
+| 96 |  40
+| 128 | 60 
+| 184 |  90
+|====================
+.Java Socket connection with chunk reading Framing on WLAN
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 5 
+|  2|  10
+| 4 | 15
+|  8|  15
+|  16|20  
+|  32|  35
+| 96 |  80
+| 128 | 110 
+| 184 |  140
+|====================
+
+**[underline]#Sniffing with
+Wireshark#**[underline]#:#
+
+The figure below shows the log from Wireshark for a data
+size of 184kBytes in a LAN network. Here we could see that the data transfer
+from the client to the server is completed in 17ms. But from the above tests we
+find the time taken for a payload of 184Kbytes is 710ms. This is because the
+message is read from the stream one byte at a time.  
+
+image::images\java_net_wireshark.png[]
+
+**[underline]#Detection of
+Connection Break#**: 
+
+For detecting unexpected connection breaks, the client has
+to keep polling with a “ping” request and the server responds with a “pong”. The
+ping-pong messages need to be additionally handled in separate threads by the
+Request/Response handlers.
+
+If the client does not receive a pong response from the
+server within a specified timeout, then a connection break notification is
+triggered.
+
+**Summary**
+
+Advantages:
+
+* Available
+with standard Java SDK.
+
+Disadvantages:
+
+* Not an application layer protocol.
+
+* Connection polling to check health of the
+connection needs to be handled by the application.
+
+* Data is exchanged using streams and no framing
+mechanism available. 
+
+**2. Constrained Application Protocol** 
+
+**CoAP **is
+an&nbsp;application layer&nbsp;protocol that is intended for use in
+resource-constrained devices. CoAP is a REST based protocol with similar
+methods that are similar to HTTP namely GET, POST, PUT and DELETE. Additionally
+CoAP also supports asynchronous data transfer from server to client with the
+Observe mechanism. The resources are reached with the URIs. 
+
+**Californium (CoAP):**
+
+**Californium** is an
+open source implementation of the Constrained Application Protocol (CoAP) and
+is a part of the eclipse foundation for IoT.
+
+**Type of License**: License
+details from Californium website states“Californium
+is dual-licensed under EPL (Eclipse Public License) and EDL (Eclipse
+Distribution License). The latter is a BSD-like (Berkeley
+Software Distribution) license, which means the Californium-CoAP framework can
+be used together with proprietary code to implement your IoT product”.
+
+**Minimum Java version:
+**Java 1.7.
+
+**Features of CoAP:**
+
+* REST based protocol with
+additional asynchronous data exchange capability and multicast capability.
+
+* Supports HTTP like methods GET,
+PUT, POST and DELETE for handling the server side resources. Additionally
+Resources can be observed for changes and the client gets notified when the
+resource is changed.
+
+* Designed for constrained M2M
+communication over low power unreliable networks.
+
+* Provides REST based architecture
+in a suitable form for the M2M communication.
+
+* Provides 2 types of message
+delivery Confirmable Message (CON) which guarantees delivery and Non
+confirmable message (NON) which does not guarantee delivery.
+
+* Limited overhead with fixed header
+length of only 4bytes and additional header length of up to 8bytes + 2bytes for
+message identifier. Which makes the header size <20bytes.
+
+Since the protocol is developed
+constrained devices in unreliable networks the Transport Layer protocol is UDP
+with a layer built for reliability. But the protocol can also be extended to
+support TCP and Websocket as Transport layer protocols.
+
+Security is provided by the DTLS
+(Datagram Transport Layer Security) connector over UDP.
+
+Block-wise data transfer
+capability for payloads greater than the MTU (Maximum Transmission Unit). Block
+size negotiations are possible between the Server and Client. 
+
+**Features Available
+with Californium CoAP:**
+
+* Observe capability for
+asynchronous data transfer from the server to the client.
+
+* Block-wise data transfer for
+larger payloads.
+
+* Reliability layer built for
+reliable data exchange over UDP.
+
+* Secure DTLS connection available.
+
+
+**Features not available
+with Californium CoAP:**
+
+* The TCP connection is still
+under development.
+
+* Websocket Transport layer
+connection not available.
+
+**Design with CoAP:**
+
+With CoAP the server side services could be implemented as
+resources which have URIs and each of the services could be accessed by the
+client delegates with the URI of the service. 
+
+With CoAP the server classes can be accessed by the client
+classes using the URIs of the server classes and data can be retrieved using
+methods like GET, POST, PUT and OBSERVE.
+
+image::images\coap_overview.png[]
+
+[underline]#Connection:# A single Transport layer connection is
+sufficient to handle multiple resources. The type of connection could be UDP,
+TCP or Websocket.
+
+[underline]#Inference:# CoAP is very well suited for the
+Server/Client setup and offers modularity and extensibility. Since CoAP is a
+REST based protocol there is no session data that is stored in the server. The
+server classes are accessed by the client to retrieve data from the server.  
+
+**Transport Layer
+Tests:**
+
+CoAP can be used with UDP, TCP and Websocket connections.
+But Californium only offers UDP and TCP connections. Websocket connection is
+not yet implemented.
+
+
+
+**[underline]#Speed test for
+different payloads:#** In this test the flight time is measured for
+different payload sizes on Wired LAN and also Wireless LAN network.
+
+.CoAP on LAN with UDP
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 7 
+|  2|  18
+| 4 | 23
+|  8|  35
+|  16|55  
+|  32|  100
+| 96 |  280
+| 128 | 360 
+| 184 | 550
+|====================
+.CoAP on WLAN with UDP
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 12 
+|  2|  70
+| 4 | 90
+|  8|  150
+|  16|220  
+|  32|  400
+| 96 |  750
+| 128 | 1350 
+| 184 |  1650
+|====================
+
+.CoAP on LAN with TCP
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 6 
+|  2|  18
+| 4 | 23
+|  8|  35
+|  16|55 
+|  32|  85
+| 96 |  200
+| 128 | 250 
+| 184 |  400
+|====================
+.CoAP on WLAN with TCP
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 12 
+|  2|  70
+| 4 | 90
+|  8|  150
+|  16|270  
+|  32|  500
+| 96 |  1200
+| 128 | 1750 
+| 184 |  2250
+|====================
+
+TCP connection is found to be slightly faster than the UDP connection on LAN network.
+
+**[underline]#Sniffing with
+Wireshark#**[underline]#:# 
+
+Here the data that is exchanged between the server and the
+client is sniffed using the Wireshark tool. The intercepted data is analyzed to
+check the bandwidth consumed and the total number of bytes exchanged.
+
+
+[underline]#Payload < 1024 Bytes#: For payload size less than
+1024 bytes the complete payload is transferred with a single frame without
+fragmentation. The total size of the CoAP packet in this case will be 1024Bytes
++ 4 Bytes of Fixed Header + 8 Bytes of 
+Token +  few bytes of options + 1
+Byte End of Option.
+
+The header length of each CoAP Frame is usually 12 Bytes +
+Number of Option Bytes. In the tests performed, it was observed that the header
+length generally remains under 30 Bytes.
+
+[underline]#Payload >1024 Bytes#: For payload size greater than
+1024 bytes the payload body needs to be fragmented to fit one frame and each
+fragmented chunk is called a “Block”. The size of each Block is 1024. After
+each frame is sent an acknowledgement is expected and the next frame is only sent after
+the acknowledgement is received. The total Frame size is found to be 1092
+Bytes.
+
+The size of each CoAP frame was found to be 1050 Bytes with
+26 Bytes os CoAP header. The size of the Acknowledgement message is found to be
+15 Bytes of header data and 0 bytes payload. 
+
+image::images\coap_wireshark.png[]
+
+[underline]#Inference#: 
+Since CoAP is designed for constrained devices on unreliable network,
+the speed of data transfer for smaller payloads (< MTU) is acceptable. But
+as the size of the payload increases the speed decreases drastically. 
+
+The blockwise data transfer in CoAP requires an acknowledgement
+after each block. The maximum size of payload possible with a single block is
+1024 bytes. Therefore to transfer 10kB of data 10 Blocks of data needs to be
+sent with acknowledgement after each block. This process reduces the speed of
+data transfer for larger payloads.
+
+**[underline]#Detection of
+Connection Break#**: 
+
+With **UDP** there is
+no longlasting connection that is established between the server and the client. Each datagram
+carries the source and the destination information and the data is received by
+the receiver based on the IP address carried by the datagram. 
+
+But in CoAP there is a reliability layer that is built on
+top of UDP. The reliability layer sends acknowledgement back to the sender when
+a datagram is received thereby bringing conformity for the data sent.
+
+Hence with UDP connection there needs to be some kind of
+ping-pong mechanism (connection health polling) to determine whether
+the peer is still available. Unfortunately this is not built into CoAP and the
+application needs to take care of this.
+
+With **TCP** unlike
+UDP there is a longlasting connection that is established between the server and the
+client. Therefore any unexpected connection error can be detected. With TCP a
+simple ping-pong mechanism can also be set up by exchanging empty messages to
+check the health of the connection.
+
+**Summary**
+
+Advantages of Californium CoAP:
+
+* Californium CoAP provides
+extensive APIs to implement the resources on the server side which can be
+accessed with the URI. Hence making the application design straight forward.
+
+* New features can be added to the
+applications by just creating a new resource without any changes on the
+existing code. 
+
+* UDP and TCP connections are
+available.
+
+* Data security through DTLS and TLS
+connections.
+
+
+Disadvantages of Californium CoAP:
+
+* Data transmission rate is slow for
+payloads in the range of 10s of kBs with both UDP and TCP connection.
+
+* Works best when the size of the
+payload is within 1 kB.
+
+* Websocket connection is not
+available with Californium.
+
+* Connection break or peer out of
+reach cannot be readily determined with UDP connection.
+
+
+**Further Development**
+
+The data transmission rate can be improved when using
+reliable transport layer protocols like TCP and Websocket. The draft https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-09[https://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-09]
+suggests BERT (Block-wise Transfer and
+Reliable Transports) which improves the block-wise transfer of CoAP by using
+the features offered by TCP. This feature can be implemented with Californium
+to improve the data transmission rate for larger payloads.
+
+Link to analysis of CoAP with BERT https://github.com/raipratheek/OsgiTestEnvironment/blob/master/coap_bert_report.adoc
+
+
+**3. Message Queue Telemetry Transport**
+
+**MQTT** stands for
+MQ Telemetry Transport. It is a publish/subscribe, extremely simple and
+lightweight messaging protocol, designed for constrained devices and
+low-bandwidth, high-latency or unreliable networks. The design principles are
+to minimize network bandwidth and device resource requirements whilst also
+attempting to ensure reliability and some degree of assurance of delivery.
+These principles also turn out to make the protocol ideal of the emerging
+“machine-to-machine” (M2M) or “Internet of Things” world of connected devices,
+and for mobile applications where bandwidth and battery power are at a premium.
+
+**Moquette MQTT **is
+the Java implementation of the MQTT protocol for the server.
+
+**Type of License: **Apache
+License 2.0.
+
+**Minimum Java Version:
+**Java 1.7.
+
+
+
+**Eclipse Paho Client **is
+the MQTT Java implementation for the client.
+
+**Type of License: **EPL
+
+**Minimum Java Version:
+**Java 1.7.
+
+**Features of MQTT:**
+
+* MQTT is a Publish/Subscribe type
+protocol with a Broker to handle data exchange between the clients.
+
+* Can also be used in a server/client
+set up by embedding the broker to the server.
+
+* Built on TCP or Websocket
+connection.
+
+* Offers multiple Quality of Service
+(QoS) like
+
+ (QoS0) At most once delivery
+ (QoS1) At least once delivery
+ (QoS2) Exactly once delivery 
+ 
+* Keeps the connection alive with
+configurable ping-pong request response.
+
+* Offers Will message where the
+client tells the server what should be done in case the connection between the
+server and the client closes.
+
+* Limited overhead with fixed header
+size of only 2 bytes. 
+
+**Design with MQTT**
+
+MQTT broker is designed for an environment where “one to many”
+publication is required. Since we are dealing with a Unicast Server/Client
+application, the MQTT Moquette api should be embedded with the server
+application. The client subscribes for topics, for which it would like to get
+the published messages. Each of the server side services corresponds to a
+unique topic. The subscribe message from the client could act as the request
+and the message published could be the response. To handle the subscription and
+the publication of the topics a handler class is required to direct publish/subscribe
+messages to the classes corresponding to the topic.
+
+Moquette api depends in Hazelcast api to handle the
+Publish/Subscribe mechanism on the application layer. The Request/Response handler
+class could create an instance of HazelcastInstance for handling the Publish/Subscribe
+messages.
+
+image::images\mqtt_overview.png[]
+
+[underline]#Inference#:
+MQTT is well suited for a network of clients which interact with each other.
+But for a simple Unicast Server/Client application a separate Request/Response
+handler is required on either side and hence MQTT acts as an extension of the
+Transport layer protocol it is built on namely, TCP and Websocket.
+
+**Transport Layer
+Tests:**
+
+MQTT can be used with TCP or Websocket connection. 
+
+
+**[underline]#Speed test for
+different payloads#**: In this test the flight time is measured for
+different payload sizes on Wired LAN and also Wireless LAN network.
+
+.MQTT on LAN with TCP
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 8 
+|  2|  10
+| 4 | 14
+|  8|  20
+|  16|25  
+|  32|  28 
+| 96 |  60
+| 128 | 85 
+| 184 |  125
+|====================
+.MQTT on WLAN with TCP
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 10 
+|  2|  20
+| 4 | 25
+|  8|  35
+|  16|50 
+|  32|  95
+| 96 |  170
+| 128 | 350 
+| 184 |  450
+|====================
+
+.MQTT on LAN with WebSocket
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 12 
+|  2|  20
+| 4 | 25
+|  8|  40
+|  16|45  
+|  32|  60
+| 64 |  80
+|====================
+.MQTT on WLAN with WebSocket
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 12 
+|  2|  20
+| 4 | 25
+|  8|  40
+|  16|60  
+|  32|  95
+| 64 |  120
+|====================
+There is not much to choose between the TCP and the
+Websocket connection in terms of speed of data transfer. But with Websocket
+connection the payload size is limited to 64kB.
+
+**[underline]#Sniffing with
+Wireshark#**[underline]#:# 
+
+MQTT provides message Fragmentation to fit the MTU of the IP
+layer (usually 1500 bytes). If the message size is larger than 1MTU then the
+message is fragmented before sending it. MQTT uses TCP as the transport layer
+protocol and hence guarantees error free and sequential message delivery. 
+
+[underline]#Inference#: MQTT offers a reliable and very high data
+transfer rate for larger payloads. This is because large messages are
+fragmented on the server side and sent as frames to the client, where it is
+put together.
+
+**[underline]#Detection of
+Connection Break#**: 
+
+MQTT offers extensive support to detect unexpected
+connection break. To keep the connection between the server and the client
+alive there is PINGREQ and PINGRES messages exchanged. The client sends PINGREQ
+to the server when it detects inactivity (duration of inactivity is
+configurable) and the server responds immediately with PINGRES message. If the
+client does not receive the PINGRES then a connection break notification is
+triggered. The frequency of the PINGREQ-PINGRES messages can also be
+configured. The PINGREQ-PINGRES messages do not consume a lot of bandwidth as
+they do not carry any payload. 
+
+**Summary**
+
+MQTT is best suited in a Multicast environment where a dozen
+of devices are connected through a network and exchange data between them via a
+broker application. The broker acts as the brain of the protocol and does
+handling of subscriptions from the clients and publishing messages whenever
+there is a message for a subscribed topic to the clients.
+
+Advantages of Moquette MQTT:
+
+* The data transfer for large
+payloads is reliable and fast.  
+
+* Offers different levels of QoS.
+
+* TCP and Websocket connections are
+available.
+
+* Data security through TLS and
+* Secure Websocket connections.
+
+Disadvantages of Moquette MQTT:
+
+* The Publish/Subscribe architecture
+of MQTT is an overhead for a Unicast Server/Client application.
+
+* 2 separate API required. Moquette
+on the server side and Eclipse Paho client on the client side.
+
+**4. WebSocket**
+
+**WebSocket**&nbsp;is a computer&nbsp;communications
+protocol, providing&nbsp;full-duplex&nbsp;communication channels over a single&nbsp;TCP&nbsp;connection.
+The WebSocket protocol was standardized by the&nbsp;IETF.&nbsp; WebSocket is designed to be
+implemented in&nbsp;web browsers&nbsp;and&nbsp;web
+servers, but it can be used by any client or server application. The WebSocket
+Protocol is an independent TCP-based protocol. Its only relationship to&nbsp;HTTP&nbsp;is
+that its&nbsp;handshake&nbsp;is interpreted by HTTP servers as an&nbsp;Upgrade request.&nbsp;The WebSocket protocol enables interaction
+between a browser and a web server with lower overheads, facilitating real-time
+data transfer from and to the server.
+
+
+**Java-Websocket by TTNate **is** **a barebone
+websocket implementation in Java.
+
+**Type of License**:
+MIT.
+
+**Minimum Java version**:
+Java 1.4.
+
+**Features of WebSocket**:
+
+* Provides full Duplex communication
+built over TCP.
+
+* Uses only one TCP connection to
+accomplish full Duplex communication.
+
+* The size of the payload is not
+limited.
+
+* Same ports could be used to handle
+HTTP and WebSocket i.e. 80 and 443.
+
+* Not a fully fledged application
+layer protocol but offers framing mechanism over TCP to enable transport of
+payloads of any size.
+
+**Architecture with
+WebSocket**
+
+WebSocket is only a light weight wrapper around TCP which
+offers full Duplex capability and Framing for large payloads. Hence in the
+Server/Client set up it can be used as a substitute to Java Socket (Transport
+layer protocol).
+
+However using WebSocket provides additional features like 
+* Notifies the server and the client
+when there is an unexpected break in connection.
+
+* Checks for inactivity in the
+connection and exchanges Ping-Pong messages to keep the connection alive.  
+
+* Either the Server or the Client
+could close the connection.
+
+* Full Duplex means that the Server
+and the Client applications have equal control over the connection and can be
+called peers. 
+
+image::images\websocket_overview.png[]
+
+**Transport Layer Tests**
+
+**[underline]#Speed test for
+different payloads#**: In this test the flight time is measured for
+different payload sizes on Wired LAN and also Wireless LAN network.
+
+.WebSocket on LAN 
+[width="50%",options="header,footer"]
+|====================
+|  Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 2 
+|  2|  5
+| 4 | 8
+|  8|  10
+|  16|16  
+|  32|  24
+| 96 |  60
+| 128 | 85 
+| 184 |  125
+|====================
+.WebSocket on WLAN 
+[width="50%",options="header,footer"]
+|====================
+ Payload
+Size (kB)| Flight
+Time (ms) 
+| 1 | 10 
+|  2|  20
+| 4 | 25
+|  8|  30
+|  16|40 
+|  32|  70
+| 96 |  170
+| 128 | 300 
+| 184 |  380
+|====================
+
+**[underline]#Sniffing with
+Wireshark#**[underline]#:# 
+
+WebSocket is built on TCP and has a framing mechanism on top
+of TCP . It uses IP packet mechanism to send frames of data over the network
+and once the final frame is arrived the frames are put together. All of this
+comes with a small overhead of 8 Bytes of WebSocket header size.
+
+[underline]#Inference#: WebSocket offers a reliable connection
+between the server and the client. The framing layer built on top of TCP helps
+with transferring large payloads efficiently. The overhead is also very minimal
+with a header size of 8 Bytes.
+
+**[underline]#Detection of Connection
+Break#**: 
+
+The connection break can be easily determined when the
+“ping” request does not receive a “pong” response. Since WebSocket is a full
+Duplex connection, the “ping” request can be sent by any of the peers. The time
+interval between the ping messages can be decided by the application. 
+
+
+
+**Summary**
+
+WebSocket could be used in place of Java Socket
+implementation as a Transport Layer protocol which supports framing of data and
+can handle payloads of any length and all of this comes at the cost of few
+bytes of header length. It also supports full Duplex communication and detects
+unexpected communication break. 
+
+Advantages of WebSocket:
+
+* The data transfer for large
+payloads is reliable and fast.  
+
+* Data security through TLS
+connections.
+
+* Full Duplex communication.
+
+* Small header size.
+
+* Supported by all the major web
+browsers.
+
+
+Disadvantages of WebSocket:
+
+* Merely a Transport Layer protocol
+on steroids. Does not support any Application Layer protocol features.
+
+
+**Payload vs Flight
+Time chart:**
+
+
+With LAN
+
+
+image::images\Lan_graph.png[]
+
+
+With WLAN
+
+
+image::images\WLan_graph.png[]
+
+Speed Comparison.
+
+2kBytes Payload
+
+image::images\comparison_2k.png[]
+
+32kBytes Payload
+
+image::images\comparison_32k.png[]
+
+190kBytes Payload
+
+image::images\comparison_190k.png[]
+
+Wireshark Analysis.
+
+In this test the server sends responses to the client every 1 second with a payload size of 192kBytes for 25 Mins.
+
+Java Socket with data read as chunks.
+
+image::images\java_socket_analysis.png[]
+
+CoAP on TCP:
+
+image::images\coap_analysis.png[]
+
+CoAP with BERT
+
+image::images\coap_bert_analysis.png[]
+
+MQTT with TCP
+
+The server ran only for 20 Mins as there was a java heap memory exception on the server.
+This is an open issue with Moquette Implementation. https://github.com/andsel/moquette/issues/320
+
+image::images\mqtt_analysis.png[]
+
+Websocket
+
+image::images\websocket_analysis.png[]
+
+
+.Comparison
+[width="100%",options="header,footer"]
+|====================
+| Protocol| Communication types like Synchronous, Asynchronous and continuous push from server| Speed with large payload |Connection Break Recognition | Web Compatibility
+| **Java Socket Programming**| All types of Communication possible | Fast | Needs to be handled by the application | No
+| **CoAP (Californium)** https://github.com/eclipse/californium| All types of Communication possible | Slow without BERT option | Needs to be handled by the application | Libraries available eg : node-coap https://github.com/mcollina/node-coap
+| **MQTT (Moquette)** https://github.com/andsel/moquette | Synchronous communication not possible | Fast | Handled by the protocol | Libraries available eg: Eclipse Paho JavaScript Client https://github.com/eclipse/paho.mqtt.javascript
+| **WebSocket (TTNate)** https://github.com/TooTallNate/Java-WebSocket | All types of Communication possible | Fast |  Needs to be handled by the application | Supported by all the major browsers
+|====================
