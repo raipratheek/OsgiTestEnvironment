@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Web Test Client</title>
+	</head>
+	<body>
+		<form>
+		<input id = "textmessage" type = "text">
+		<input onclick="sendMessage();" value ="send Message" type="button">
+		</form>
+		
+		<br><textarea id = "textArea" rows="10" cols="50"></textarea>
+		
+		<script type="text/javascript">
+			var webSocket = new WebSocket("ws://localhost:8025");
+			var textArea = document.getElementById("textArea");
+			webSocket.onopen = function(message){processOpen(message);};
+			function processOpen(message){
+				textArea.value+= " Server Connected !";
+			}
+			webSocket.onclose = function(message){processClose(message);};
+			webSocket.onmessage = function(message){processMessage(message);};
+			function processClose(message){
+				textArea.value+= " Server Disconnected !";
+			}
+			
+			function processMessage(message){
+				textArea.value+= " Received from server " + message.data;
+			}
+			
+			function sendMessage(){
+				webSocket.send(textmessage.value);
+				textArea.value+= " Send to server "+ textmessage.value;
+				textArea.value="";
+			}
+		</script>
+		
+	</body>
+</html>
